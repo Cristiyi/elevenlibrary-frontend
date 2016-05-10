@@ -298,14 +298,17 @@ bookApp.controller('CreateMyBookCtrl', ['$scope', '$rootScope', '$timeout', '$st
     console.log($scope.myBook);
   };
   $scope.createMyBook = function() {
+    $('#createNewBookButton').button('loading');
     BooksService.createBook($scope.myBook).success(function(res) {
       if (res.errType == 0) {
         $scope.myBook._id = res._id;
         $scope.books.push($scope.myBook);
         $scope.showSuccessMsg("Success to add the book: " + $scope.myBook.name);
+        $('#createNewBookButton').button('reset');
         $location.path('/book/' + $scope.myBook._id);
       }
     }).error(function(res) {
+      $('#createNewBookButton').button('reset');
       $scope.showErrorMsg("Fail to add the book: " + $scope.myBook.name);
     });
   };
@@ -347,6 +350,7 @@ bookApp.controller('EditMyBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
     BooksService.getDouban($scope.books[$scope.index]);
   };
   $scope.saveMyBook = function() {
+    $('#saveMyBookButton').button('loading');
     BooksService.editBook($scope.myBook).success(function(res) {
       $scope.books[$scope.index].isbn = $scope.myBook.isbn;
       $scope.books[$scope.index].name = $scope.myBook.name;
@@ -358,20 +362,24 @@ bookApp.controller('EditMyBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
       $scope.books[$scope.index].price = $scope.myBook.price;
       $scope.books[$scope.index].desc = $scope.myBook.desc;
       $scope.books[$scope.index].confirmed = false;
+      $('#saveMyBookButton').button('reset');
       $scope.showSuccessMsg("Success to save the book: " + $scope.myBook.name);
       $location.path('/book/' + $scope.myBook._id);
     }).error(function(res) {
+      $('#saveMyBookButton').button('reset');
       $scope.showErrorMsg("Fail to save the book: " + $scope.myBook.name);
     });
   };
   $scope.deleteMyBook = function() {
     BooksService.deleteBook($scope.myBook._id).success(function(res) {
       $scope.books.splice($scope.$index, 1);
+      $('#deleteMyBookModal').modal('hide');
       $timeout(function() {
         $location.path('/books/all');
         $scope.showSuccessMsg("Success to delete the book: " + $scope.myBook.name);
       }, 300);
     }).error(function(res){
+      $('#deleteMyBookModal').modal('hide');
       $scope.showErrorMsg("Fail to delete the book: " + $scope.myBook.name);
     });
   }
