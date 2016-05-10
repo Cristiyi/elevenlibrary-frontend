@@ -3,7 +3,7 @@ var host = '';
 if (window.location.hostname == 'localhost') {
   host = 'http://localhost:4000';
 } else {
-  host = 'http://9.112.24.133:4000';
+  host = 'http://9.155.24.133:4000';
 };
 
 serviceApp.factory('adminBooksService', ['$http', function($http) {
