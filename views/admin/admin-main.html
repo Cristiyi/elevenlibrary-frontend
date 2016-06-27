@@ -16,7 +16,7 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <li ng-class="{active: currentState.route==0}"><a ui-sref="manage.books" ng-click="currentState.route=0">Books <span class="label label-info badge" style="background-color: #286090">{{currentState.book.count.totalNum}}</span></a></li>
-            <li ng-class="{active: currentState.route==1}"><a ui-sref="manage.events" ng-click="currentState.route=1">Events <span class="label label-info badge" style="background-color: #5bc0de">{{currentState.events.count}}</span></a></li>
+            <li ng-class="{active: currentState.route==1}"><a ui-sref="manage.history" ng-click="currentState.route=1">History</a></li>
             <li ng-class="{active: currentState.route==2}"><a ui-sref="manage.logs" ng-click="currentState.route=2">Logs <span class="label label-info badge" style="background-color: #d9534f">{{currentState.logs.count}}</span></a></li>
           </ul>
           <p ng-if="currentState.route==0" class="navbar-text"><strong>{{currentState.book.count.totalNum}}</strong>&nbsp; books:&nbsp;&nbsp;<strong>{{currentState.book.count.freeNum}}</strong>&nbsp;free&nbsp;&nbsp;&nbsp;<strong>{{currentState.book.count.resNum}}</strong>&nbsp;reserved&nbsp;&nbsp;&nbsp;<strong>{{currentState.book.count.borNum}}</strong>&nbsp;borrowed&nbsp;&nbsp;&nbsp;</p>

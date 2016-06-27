@@ -18,6 +18,9 @@ serviceApp.factory('adminBooksService', ['$http', function($http) {
     setBook: function(book, success, error) {
       $http.put(host + '/api/admin/books/' + book._id, book).success(success).error(error);
     },
+    approvalConfirmation: function(_id){
+      return $http.put(host + '/api/admin/confirmations/' + _id);
+    },
     getAllBooks: function(success, error) {
       $http.get(host + '/api/admin/books').success(success).error(error);
     },
@@ -117,30 +120,6 @@ serviceApp.factory('UserService', ['$http', function($http) {
     adminLogout: function() {
       return $http.post(host + '/api/logout/admin');
     }
-  }
-}]);
-
-serviceApp.factory('EventsService', ['$http', function($http) {
-  var events = [];
-  return {
-    getAllConfirmations: function(){
-      return $http.get(host + '/api/admin/confirmations');
-    },
-    approvalConfirmation: function(_id){
-      return $http.put(host + '/api/admin/confirmations/' + _id);
-    },
-    getAllEvents: function() {
-      return $http.get(host + '/api/admin/events');
-    },
-    acceptEvent: function(_id, intrId) {
-      return $http.put(host + '/api/admin/events/' + _id, {
-        intrId: intrId
-      });
-    },
-    returnEvent: function(_id) {
-      return $http.post(host + '/api/admin/events/' + _id);
-    },
-    events: events
   }
 }]);
 

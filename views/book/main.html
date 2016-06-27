@@ -12,7 +12,7 @@
     </li>
     <li ng-show="logInUser.name">
       <div class="dropdown">
-        <a class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="cursor:pointer"><img class="img-rounded" src="{{logInUser.image}}" alt="" style="width:25px"> {{logInUser.name}}
+        <a class="dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="cursor:pointer"><img class="img-rounded" ng-src="http://faces.tap.ibm.com/imagesrv/{{logInUser.intrID}}" alt="" style="width:25px"> {{logInUser.name}}
           <span class="caret"></span>
         </a>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">

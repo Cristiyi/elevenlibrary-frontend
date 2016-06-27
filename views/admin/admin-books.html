@@ -3,25 +3,30 @@
     <input type="checkbox" ng-model="checkboxes.checked" class="select-all" value="" />
   </script>
   <div class="row">
-    <button ui-sref="manage.newBook" class="btn btn-success navbar-btn"><span class="glyphicon glyphicon-plus"></span> New</button>
+    <!--     <button ui-sref="manage.newBook" class="btn btn-success navbar-btn"><span class="glyphicon glyphicon-plus"></span> New</button>
+ -->
     <button class="btn btn-danger navbar-btn" ng-click="deleteBooks()"><span class="glyphicon glyphicon-trash"></span> Delete</button>
     <button class="btn btn-primary navbar-btn" ng-click="modifyBook()"><span class="glyphicon glyphicon-pencil"></span> Modify</button>
     <button class="btn btn-warning navbar-btn pull-right" data-toggle="modal" data-target="#myModal" ng-click="setTable()"><span class="glyphicon glyphicon-cog"></span> Setting</button>
-    <div class="alert alert-success bookAlert" role="alert" ng-show="currentState.book.message.type==1">Book&nbsp;(<strong>"{{currentState.book.message.book.unqId}}",&nbsp;"{{currentState.book.message.book.name}}"</strong>)&nbsp;has been added.</div>
-    <div class="alert alert-success bookAlert" role="alert" ng-show="currentState.book.message.type==2">Book&nbsp;(<strong>"{{currentState.book.message.book.unqId}}",&nbsp;"{{currentState.book.message.book.name}}"</strong>)&nbsp;has been deleted.</div>
+    <div class="checkbox pull-right" style="margin-right:20px">
+      <label>
+        <input type="checkbox" ng-model="setting.showConfirmed"> Only Unconfirmed
+      </label>
+    </div>
+    <div class="alert alert-success bookAlert" role="alert" ng-show="currentState.book.message.type==1">Book&nbsp;(<strong>"{{currentState.book.message.book._id}}",&nbsp;"{{currentState.book.message.book.name}}"</strong>)&nbsp;has been added.</div>
+    <div class="alert alert-success bookAlert" role="alert" ng-show="currentState.book.message.type==2">Book&nbsp;(<strong>"{{currentState.book.message.book._id}}",&nbsp;"{{currentState.book.message.book.name}}"</strong>)&nbsp;has been deleted.</div>
     <div class="alert alert-success bookAlert" role="alert" ng-show="currentState.book.message.type==3"><strong>{{currentState.book.message.book.count}}</strong>&nbsp;Book have been deleted.</div>
-    <div class="alert alert-success bookAlert" role="alert" ng-show="currentState.book.message.type==4">Book&nbsp;(<strong>"{{currentState.book.message.book.unqId}}",&nbsp;"{{currentState.book.message.book.name}}"</strong>)&nbsp;has been saved.</div>
+    <div class="alert alert-success bookAlert" role="alert" ng-show="currentState.book.message.type==4">Book&nbsp;(<strong>"{{currentState.book.message.book._id}}",&nbsp;"{{currentState.book.message.book.name}}"</strong>)&nbsp;has been saved.</div>
     <div class="alert alert-danger bookAlert" role="alert" ng-show="currentState.book.message.type==9">Book Delete:<strong>{{currentState.book.message.book.succCount}}</strong> Success, <strong>{{currentState.book.message.book.failCount}}</strong> Failed.</div>
   </div>
   <table ng-table="tableParams" class="table table-condensed table-hover" show-filter="setting.showAllFilters">
-    <tr ng-repeat="book in $data" ng-class="{success: book.status==2, danger: book.status== 1}">
+    <tr ng-repeat="book in $data" ng-class="{danger: book.confirmed == false}">
       <td class="text-center" header="'headerCheckbox.html'">
-        <input type="checkbox" ng-model="checkboxes.items[book.unqId]" />
+        <input type="checkbox" ng-model="checkboxes.items[book._id]" />
       </td>
-      <td class="text-center" title="'#'">
+      <td class="text-center manageArea" title="'#'">
         <a ng-href="#/manage/book/{{book._id}}"><span class="glyphicon glyphicon-pencil"></span></a>
-      </td>
-      <td class="text-center" title="'ID'" filter="{ unqId: 'text'}" sortable="'unqId'">{{book.unqId}}
+        <a ng-href="#/book/{{book._id}}" target="_blank"><span class="glyphicon glyphicon-book"></span></a>
       </td>
       <td class="text-center" title="'ISBN'" filter="{ isbn: 'text'}" sortable="'isbn'">
         {{book.isbn}}
@@ -38,11 +43,11 @@
       <td class="text-center" title="'Category'" filter="{ category: 'select'}" sortable="'category'">
         {{book.category}}
       </td>
+      <td class="text-center" title="'Owner'" filter="{ ownerIntrID: 'text'}" sortable="'ownerIntrID'">
+        {{book.ownerIntrID}}
+      </td>
       <td class="text-center" title="'Borrower'" filter="{ borrower: 'text'}" sortable="'borrower'">
         {{book.intrID}}
-      </td>
-      <td class="text-center" title="'History'"sortable="'history'">
-        <span ng-repeat="item in book.borrower">{{item.name}} </span>
       </td>
       <td class="text-center" title="'BorrowTime'" filter="{ borrowTime: 'text'}" sortable="'borrowTime'">
         {{book.borrowTime | date:'yyyy-MM-dd'}}
@@ -70,6 +75,9 @@
       </td>
       <td class="text-center" title="'Status'" filter="{ status: 'select'}" filter-data="[{ id: '', title: 'All'},{ id: '0', title: 'Free'},{ id: '1', title: 'Reserved'},{ id: '2', title: 'Borrowed'}]" sortable="'status'">
         {{book.status==0? 'Free':(book.status==1?'Reserved':'Borrowed')}}
+      </td>
+      <td class="text-center" title="'Confirmed'" filter="{ confirmed: 'select'}" filter-data="[{ id: '', title: 'All'}, { id: true, title: 'Confirmed'},{ id: false, title: 'Unconfirmed'}]" sortable="'confirmed'">
+        {{book.confirmed==true? 'Yes':'No'}}
       </td>
     </tr>
   </table>
@@ -102,7 +110,7 @@
             <label class="col-sm-2 control-label">Status</label>
             <div class="col-md-8">
               <select class="form-control" ng-model="tableParams.filter().status" ng-options="status.id as status.title for status in statuses">
-              <option value="">All</option>
+                <option value="">All</option>
               </select>
             </div>
           </div>
@@ -187,7 +195,7 @@
             </thead>
             <tr ng-repeat="book in deleteBookList.list">
               <th>{{$index + 1}}</th>
-              <th>{{book.unqId}}</th>
+              <th>{{book._id}}</th>
               <th>{{book.name}}</th>
               <th>{{book.isbn}}</th>
               <th ng-show="deleteBookList.isDeleting"><span ng-show="book.delSuc == 1" class="glyphicon glyphicon-ok"></span><span ng-show="book.delSuc ==2" class="glyphicon glyphicon-remove"></span></th>

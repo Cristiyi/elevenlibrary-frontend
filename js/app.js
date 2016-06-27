@@ -111,10 +111,10 @@ mainApp.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: 'views/admin/admin-books.html',
       controller: 'ManageBooksCtrl'
     })
-    .state('manage.events', {
-      url: '/manage/events',
-      templateUrl: 'views/admin/admin-events.html',
-      controller: 'ManageEventsCtrl'
+    .state('manage.history', {
+      url: '/manage/history',
+      templateUrl: 'views/admin/admin-history.html',
+      controller: 'ManageHistoryCtrl'
     })
     .state('manage.logs', {
       url: '/manage/logs',
@@ -146,7 +146,7 @@ mainApp.run(function($rootScope, $window, $cookies, $http, $location, UserServic
     'name': user ? user.name : '',
     'intrID': user ? user.intrID : '',
     'phoneNum': user ? user.phoneNum : '',
-    'image': user ? user.image : ''
+    'image': user ? 'http://faces.tap.ibm.com/imagesrv/'+ user.intrID : ''
   };
   $rootScope.fromStage="";
   $rootScope.logOut = function () {

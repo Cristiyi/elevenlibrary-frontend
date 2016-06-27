@@ -1,16 +1,20 @@
 <div class="col-xs-6 col-md-3" style="width:200px; margin-right: 100px; margin-left: 50px">
-  <label>Image</label>
-  <a ng-href="{{book.image}}" target="_blank" style="width: 200px; height: 280px;">
-    <img class="" style="width: 200px; height: 280px; background-image: url({{book.image}}); background-size: 200px 280px; background-repeat:no-repeat; display: block; overflow:hidden">
-  </a>
+  <div>
+    <label>Image</label>
+    <a ng-href="{{book.image}}" target="_blank" style="width: 200px; height: 280px;">
+      <img class="" style="width: 200px; height: 280px; background-image: url({{book.image}}); background-size: 200px 280px; background-repeat:no-repeat; display: block; overflow:hidden">
+    </a>
+  </div>
+  <div style="margin-top:50px">
+  <label>Owner: </label>
+    <a ng-href="http://faces.tap.ibm.com/imagesrv/{{book.ownerIntrID}}" target="_blank" style="width: 60px;height:60px;">
+      <img class="" style="width: 60px; height:60px; background-image: url(http://faces.tap.ibm.com/imagesrv/{{book.ownerIntrID}}); background-size: 60px 60px; background-repeat:no-repeat; display: block; overflow:hidden">
+    </a>
+    <label>{{book.ownerName}}</label>
+    <label>{{book.ownerIntrID}}</label>
+  </div>
 </div>
 <form class="form-horizontal col-md-8 pull-left " ng-submit="addBook()">
-  <div class="form-group">
-    <label for="inputEmail3" class="col-sm-2 control-label">ID<span class="red">*</span></label>
-    <div class="col-sm-5">
-      <input type="text" class="form-control" ng-model="book.unqId" ng-disabled="true" placeholder="ID" required>
-    </div>
-  </div>
   <div class="form-group">
     <label class="col-sm-2 control-label">ISBN<span class="red">*</span></label>
     <div class="col-sm-6">
@@ -88,6 +92,7 @@
       <div class="alert alert-danger bookAlert" role="alert" ng-show="currentState.book.message.type==11"><strong>Failed to save!</strong>This book doesn't exist.</div>
       <div class="alert alert-danger bookAlert" role="alert" ng-show="currentState.book.message.type==12"><strong>Failed to save!</strong>Server Error, please try again.</div>
       <div class="alert alert-danger bookAlert" role="alert" ng-show="currentState.book.message.type==15">This book doesn't exist in Douban.</div>
+      <button type="button" class="btn btn-primary pull-right" ng-click="confirm()" ng-hide="book.confirmed">Confirm</button>
     </div>
   </div>
 </form>

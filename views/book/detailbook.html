@@ -54,7 +54,7 @@
         </div>
         <div id="contactDiv" class="meta-act">
           <h3 class="meta-head">Contact Owner</h3>
-          <img ng-src="{{books[index].ownerImage}}" alt="{{books[index].ownerImage}}" class="img-inset">
+          <img ng-src="http://faces.tap.ibm.com/imagesrv/{{books[index].ownerIntrID}}" alt="{{books[index].ownerIntrID}}" class="img-inset">
           <a class="meta-act-link" style="padding: 10px 0;" ng-click="contact(books[index].ownerIntrID)">{{books[index].ownerName}}</a>
           <a href="mailto:{{books[index].ownerIntrID}}?subject=11Library" class="meta-act-link" style="padding: 0 0;"><span class="glyphicon glyphicon-envelope"></span> {{books[index].ownerIntrID}}</a>
           <a class="meta-act-link" style="padding: 10px 0;"><span class="glyphicon glyphicon-phone"></span> {{books[index].ownerPhoneNum}}</a>
@@ -100,7 +100,7 @@
         <ol id="comments" class="comments">
           <li class="response group " ng-repeat="comment in books[index].comments track by $index">
             <div class="user_pic">
-              <img src="https://w3-connectionsapi.ibm.com/profiles/photo.do?email={{comment.intrID}}">
+              <img ng-src="http://faces.tap.ibm.com/imagesrv/{{comment.intrID}}">
             </div>
             <div class="comments">
               <button type="button" class="close" aria-label="Close" ng-show="comment.intrID == logInUser.intrID" ng-click="deleteComment(comment._id)"><span aria-hidden="true">&times;</span></button>

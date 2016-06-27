@@ -46,16 +46,14 @@ userApp.controller('LoginCtrl', ['$scope', '$rootScope', '$http', '$location', '
 
             $rootScope.logInUser.name = res.name;
             $rootScope.logInUser.phoneNum = res.phoneNum;
-            $rootScope.logInUser.image = res.image;
             $rootScope.logInUser.intrID = user.intrID;
 
             var expireDate = new Date();
             expireDate.setDate(expireDate.getDate() + 7);
             $cookies.putObject('user', {
-              intrID: $scope.user.intrID,
-              name: res.name,
-              phoneNum: res.phoneNum,
-              image: res.image
+              intrID: $rootScope.logInUser.intrID,
+              name: $rootScope.logInUser.name,
+              phoneNum: $rootScope.logInUser.phoneNum,
             }, {
               'expires': expireDate
             });

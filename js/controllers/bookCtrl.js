@@ -289,7 +289,6 @@ bookApp.controller('CreateMyBookCtrl', ['$scope', '$rootScope', '$timeout', '$st
     'ownerIntrID': $rootScope.logInUser.intrID,
     'ownerName': $rootScope.logInUser.name,
     'ownerPhoneNum': $rootScope.logInUser.phoneNum,
-    'ownerImage': $rootScope.logInUser.image,
     'confirmed': false,
     'category': 'Frontend'
   };
