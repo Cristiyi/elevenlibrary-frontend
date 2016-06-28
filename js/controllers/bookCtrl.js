@@ -8,6 +8,9 @@ bookApp.controller('MainBooksCtrl', ['$scope', '$state', '$rootScope', '$timeout
   $scope.successMsg = '';
   $scope.errorMsg = '';
   $scope.timeout = null;
+  $scope.showAvai = false;
+  $scope.onlyAvai = false;
+
   var eachPageBooksCount = 10;
 
   $scope.$watch(function() {
@@ -94,6 +97,7 @@ bookApp.controller('MainBooksCtrl', ['$scope', '$state', '$rootScope', '$timeout
     $scope.books = [];
     $scope.getDataOver = false;
     $scope.showScrollToTop = false;
+    $scope.showAvai = false;
 
     BooksService.getAllBooks()
       .success(function(res) {
@@ -120,12 +124,14 @@ bookApp.controller('MainBooksCtrl', ['$scope', '$state', '$rootScope', '$timeout
         };
         $scope.updatePop();
         $scope.getDataOver = true;
+        $scope.showAvai = true;
       });
   };
 }]);
 
 bookApp.controller('AllBooksCtrl', ['$scope', '$rootScope', '$state', '$timeout', 'BooksService', function($scope, $rootScope, $state, $timeout, BooksService) {
   console.log('AllBooksCtrl Start');
+  console.log($scope.onlyAvai);
   $scope.update();
   var timeout;
   $scope.like = function(book) {

@@ -33,7 +33,7 @@
           <a href="" class="meta-act-link cancel" ng-click="cancel()" ng-show="books[index].status==1 && logInUser.intrID && books[index].intrID == logInUser.intrID && books[index].ownerIntrID != logInUser.intrID && !hover"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> Reserved</a>
           <a href="" class="meta-act-link cancel" ng-click="deliver()" ng-show="books[index].status==1 && logInUser.intrID && books[index].ownerIntrID == logInUser.intrID "><span class="glyphicon glyphicon-check" aria-hidden="true"></span> Deliver    (to {{books[index].intrID}})</a>
           <a href="" class="meta-act-link cancel" data-toggle="modal" data-target="#cancelModal" ng-show="books[index].status==1 && logInUser.intrID && books[index].intrID == logInUser.intrID && books[index].ownerIntrID != logInUser.intrID && hover"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel</a>
-          <a href="" class="meta-act-link borrowed" ng-show="(books[index].status==2 || (books[index].status==1 && books[index].intrID != logInUser.intrID)) && books[index].ownerIntrID != logInUser.intrID"><span class="glyphicon glyphicon-share" aria-hidden="true"></span> Borrowed</a>
+          <a href="" class="meta-act-link borrowed" ng-show="(books[index].status==2 || (books[index].status==1 && books[index].intrID != logInUser.intrID)) && books[index].ownerIntrID != logInUser.intrID" title="By {{books[index].intrID}} | Untill {{books[index].returnTime ? books[index].returnTime :  expireDate | date:'yyyy-MM-dd'}}"><span class="glyphicon glyphicon-share" aria-hidden="true"></span> Borrowed</a>
           <a href="" class="meta-act-link cancel" ng-click="return()" ng-show="books[index].status==2 && logInUser.intrID && books[index].ownerIntrID == logInUser.intrID "><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span> Received    (from {{books[index].intrID}})</a>
         </div>
         <div class="meta-act">
@@ -55,7 +55,7 @@
         <div id="contactDiv" class="meta-act">
           <h3 class="meta-head">Contact Owner</h3>
           <img ng-src="http://faces.tap.ibm.com/imagesrv/{{books[index].ownerIntrID}}" alt="{{books[index].ownerIntrID}}" class="img-inset">
-          <a class="meta-act-link" style="padding: 10px 0;" ng-click="contact(books[index].ownerIntrID)">{{books[index].ownerName}}</a>
+          <a class="meta-act-link" style="padding: 10px 0;" ng-click="contact(books[index].ownerIntrID)"><span class="glyphicon glyphicon-user"></span> {{books[index].ownerName}}</a>
           <a href="mailto:{{books[index].ownerIntrID}}?subject=11Library" class="meta-act-link" style="padding: 0 0;"><span class="glyphicon glyphicon-envelope"></span> {{books[index].ownerIntrID}}</a>
           <a class="meta-act-link" style="padding: 10px 0;"><span class="glyphicon glyphicon-phone"></span> {{books[index].ownerPhoneNum}}</a>
           <br />

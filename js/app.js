@@ -159,6 +159,12 @@ mainApp.run(function($rootScope, $window, $cookies, $http, $location, UserServic
     });
   };
 
+  $rootScope.$on('$locationChangeStart', function(event, next, current) {
+    if (current){
+      $rootScope.fromStage = current.substr(current.indexOf('#')+1);
+    };
+   });
+
   $rootScope.adminLogOut = function () {
     UserService.adminLogout().success(function(res){
       $location.path('/adminLogin');
