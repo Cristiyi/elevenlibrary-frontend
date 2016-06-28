@@ -1,0 +1,21 @@
+<div>
+  <table ng-table="hisTableParams" class="table table-condensed table-hover table-striped">
+    <tr ng-repeat="history in $data">
+      <td class="text-center" title="'#'">{{$index + 1}}
+      </td>
+      <td class="text-center" title="'Date'" sortable="'Date'">
+        {{history.time | date:'yyyy-MM-dd HH:mm:ss'}}
+      </td>
+      <td class="text-center" title="'User'" sortable="'User'">
+        {{history.intrID}}
+      </td>
+      <td class="text-center" title="'Name'" sortable="'Name'">
+        {{history.name}}
+      </td>
+      <td class="text-center logTd" title="'Content'" sortable="'Content'">
+        <p title="{{history.content}}"> {{history.content}}
+        </p>
+      </td>
+    </tr>
+  </table>
+</div>

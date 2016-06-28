@@ -1,6 +1,6 @@
 var adminApp = angular.module('adminApp', ['ngMessages', 'ngTable']);
 
-adminApp.controller('ManageCtrl', ['$scope', '$state', '$timeout', 'NgTableParams', 'adminBooksService', 'LogsService', function($scope, $state, $timeout, NgTableParams, adminBooksService, LogsService) {
+adminApp.controller('ManageCtrl', ['$scope', '$state', '$timeout', 'NgTableParams', 'adminBooksService', 'HistoriesService', 'LogsService', function($scope, $state, $timeout, NgTableParams, adminBooksService, HistoriesService, LogsService) {
   $scope.currentState = {
     route: 0,
     book: {
@@ -15,9 +15,8 @@ adminApp.controller('ManageCtrl', ['$scope', '$state', '$timeout', 'NgTableParam
         book: {}
       }
     },
-    events: {
-      count: 0,
-      bCount: 0
+    histories: {
+      count: 0
     },
     logs: {
       count: 0
@@ -71,6 +70,12 @@ adminApp.controller('ManageCtrl', ['$scope', '$state', '$timeout', 'NgTableParam
   });
 
   $scope.$watch(function() {
+    return HistoriesService.histories.length;
+  }, function() {
+    $scope.currentState.histories.count = HistoriesService.histories.length;
+  });
+
+  $scope.$watch(function() {
     return LogsService.logs.length;
   }, function() {
     $scope.currentState.logs.count = LogsService.logs.length;
@@ -97,18 +102,37 @@ adminApp.controller('ManageCtrl', ['$scope', '$state', '$timeout', 'NgTableParam
     });
   };
 
+  $scope.getHistoryData = function() {
+    HistoriesService.getAllHistories(function(res) {
+      HistoriesService.histories = [];
+      HistoriesService.histories = HistoriesService.histories.concat(res);
+      console.log('GetAllBooks', res);
+      $scope.hisTableParams = new NgTableParams({
+        count: 10
+      }, {
+        filterOptions: {
+          filterComparator: false
+        },
+        counts: [10, 50, 100],
+        dataset: HistoriesService.histories
+      });
+    }, function(res) {
+      console.log('getAllHistories Error', res);
+    });
+  };
+
   $scope.getLogData = function() {
     LogsService.getAllLogs().success(function(res) {
       LogsService.logs = [];
       LogsService.logs = res;
       console.log('GetAllLogs:', LogsService.logs);
       $scope.logTableParams = new NgTableParams({
-        count: 25
+        count: 10
       }, {
         filterOptions: {
           filterComparator: false
         },
-        counts: [25, 50, 100],
+        counts: [10, 50, 100],
         dataset: LogsService.logs
       });
     }).error(function(res) {
@@ -116,6 +140,7 @@ adminApp.controller('ManageCtrl', ['$scope', '$state', '$timeout', 'NgTableParam
     });
   };
   $scope.getBookData();
+  $scope.getHistoryData();
   $scope.getLogData();
 }]);
 
@@ -525,6 +550,10 @@ adminApp.controller('NewBookCtrl', ['$scope', '$http', '$timeout', '$location', 
   };
 }]);
 
+adminApp.controller('ManageHistoriesCtrl', ['$scope', 'HistoriesService', function($scope, HistoriesService) {
+  $scope.getHistoryData();
+}]);
+
 adminApp.controller('ManageLogsCtrl', ['$scope', 'LogsService', function($scope, LogsService) {
   $scope.getLogData();
   $scope.deleteLog = function(_id) {
@@ -538,4 +567,4 @@ adminApp.controller('ManageLogsCtrl', ['$scope', 'LogsService', function($scope,
       }
     });
   }
-}])
+}]);

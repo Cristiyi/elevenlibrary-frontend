@@ -113,8 +113,8 @@ mainApp.config(function($stateProvider, $urlRouterProvider) {
     })
     .state('manage.history', {
       url: '/manage/history',
-      templateUrl: 'views/admin/admin-history.html',
-      controller: 'ManageHistoryCtrl'
+      templateUrl: 'views/admin/admin-histories.html',
+      controller: 'ManageHistoriesCtrl'
     })
     .state('manage.logs', {
       url: '/manage/logs',

@@ -28,6 +28,16 @@ serviceApp.factory('adminBooksService', ['$http', function($http) {
   };
 }]);
 
+serviceApp.factory('HistoriesService', ['$http', function($http) {
+  var histories = [];
+  return {
+    getAllHistories: function(success, error) {
+      $http.get(host + '/api/admin/histories').success(success).error(error);
+    },
+    histories: histories
+  };
+}]);
+
 serviceApp.factory('BooksService', ['$http', function($http) {
   var books = [];
   return {
