@@ -14,6 +14,9 @@
               <h5>- {{book.author}}</h5>
               <h5>- {{book.publisher}}</h5>
               <h5>- {{book.category}}</h5>
+              <h5 ng-show="book.status == 1">Ordered By {{book.intrID}}</h5>
+              <h5 ng-show="book.status == 2">Borrowed By {{book.intrID}}</h5>
+              <h5 ng-show="book.status == 2 && book.returnTime">Untill {{book.returnTime | date:'yyyy-MM-dd'}}</h5>
             </div>
             <div class="freeInfo">
             </div>
