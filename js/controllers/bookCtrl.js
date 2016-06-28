@@ -380,7 +380,7 @@ bookApp.controller('EditMyBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
       $scope.books.splice($scope.$index, 1);
       $('#deleteMyBookModal').modal('hide');
       $timeout(function() {
-        $location.path('/books/all');
+        $location.path($rootScope.fromStage);
         $scope.showSuccessMsg("Success to delete the book: " + $scope.myBook.name);
       }, 300);
     }).error(function(res){
