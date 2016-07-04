@@ -1,9 +1,8 @@
 var bookApp = angular.module('bookApp', ['wu.masonry', 'infinite-scroll', 'serviceApp']);
-bookApp.controller('MainBooksCtrl', ['$scope', '$state', '$rootScope', '$timeout','BooksService',  function($scope, $state, $rootScope, $timeout, BooksService) {
+bookApp.controller('MainBooksCtrl', ['$scope', '$state', '$rootScope', '$timeout', 'BooksService', function($scope, $state, $rootScope, $timeout, BooksService) {
   console.log('MainBooksCtrl Start');
   $scope.books = [];
   $scope.popBooks = [];
-  $scope.getDataOver = false;
   $scope.showScrollToTop = false;
   $scope.successMsg = '';
   $scope.errorMsg = '';
@@ -95,7 +94,6 @@ bookApp.controller('MainBooksCtrl', ['$scope', '$state', '$rootScope', '$timeout
 
   $scope.update = function() {
     $scope.books = [];
-    $scope.getDataOver = false;
     $scope.showScrollToTop = false;
     $scope.showAvai = false;
 
@@ -123,15 +121,14 @@ bookApp.controller('MainBooksCtrl', ['$scope', '$state', '$rootScope', '$timeout
           $scope.books.push(res[i]);
         };
         $scope.updatePop();
-        $scope.getDataOver = true;
         $scope.showAvai = true;
+        $scope.$broadcast('getAllDataEvent');
       });
   };
 }]);
 
 bookApp.controller('AllBooksCtrl', ['$scope', '$rootScope', '$state', '$timeout', 'BooksService', function($scope, $rootScope, $state, $timeout, BooksService) {
   console.log('AllBooksCtrl Start');
-  console.log($scope.onlyAvai);
   $scope.update();
   var timeout;
   $scope.like = function(book) {
@@ -166,18 +163,21 @@ bookApp.controller('DetailBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
   };
 
 
-  $scope.$watch(function() {
-    return $scope.getDataOver;
-  }, function() {
-    for (var i = 0; i < $scope.books.length; i++) {
+  $scope.$on('getAllDataEvent', function() {
+    var i = 0;
+    for (i = 0; i < $scope.books.length; i++) {
       if ($scope.books[i]._id == $state.params._id) {
         $scope.index = i;
+        console.log("Current Book:", $scope.books[i]);
         if ($scope.books[i].applyTime) {
           $scope.expireDate = new Date($scope.books[i].applyTime).setDate(new Date($scope.books[i].applyTime).getDate() + 2);
         };
         break;
       };
     };
+    if (i >= $scope.books.length){
+      $location.path('/books/all');
+    }
   });
 
   BooksService.getSimilarBooks($state.params._id).success(function(res) {
@@ -323,10 +323,9 @@ bookApp.controller('EditMyBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
   $scope.myBook = {};
   $scope.index = -1;
   $scope.update();
-  $scope.$watch(function() {
-    return $scope.getDataOver;
-  }, function() {
-    for (var i = 0; i < $scope.books.length; i++) {
+  $scope.$on('getAllDataEvent', function() {
+    var i = 0;
+    for (i = 0; i < $scope.books.length; i++) {
       if ($scope.books[i]._id == $state.params._id) {
         if ($scope.books[i].ownerIntrID != $rootScope.logInUser.intrID) {
           $location.path('/book/' + $scope.books[i]._id);
@@ -349,6 +348,9 @@ bookApp.controller('EditMyBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
         break;
       };
     };
+    if (i >= $scope.books.length) {
+      $location.path('/books/all');
+    }
   });
 
   $scope.getDouban = function() {
@@ -376,16 +378,16 @@ bookApp.controller('EditMyBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
     });
   };
   $scope.deleteMyBook = function() {
-    BooksService.deleteBook($scope.myBook._id).success(function(res) {
-      $scope.books.splice($scope.$index, 1);
-      $('#deleteMyBookModal').modal('hide');
-      $timeout(function() {
-        $location.path($rootScope.fromStage);
-        $scope.showSuccessMsg("Success to delete the book: " + $scope.myBook.name);
-      }, 300);
-    }).error(function(res){
-      $('#deleteMyBookModal').modal('hide');
-      $scope.showErrorMsg("Fail to delete the book: " + $scope.myBook.name);
-    });
+    $('#deleteMyBookModal').on('hidden.bs.modal', function(e) {
+      BooksService.deleteBook($scope.myBook._id).success(function(res) {
+        $scope.books.splice($scope.$index, 1);
+        $timeout(function() {
+          $location.path('/books/all');
+          $scope.showSuccessMsg("Success to delete the book: " + $scope.myBook.name);
+        }, 300);
+      }).error(function(res) {
+        $scope.showErrorMsg("Fail to delete the book: " + $scope.myBook.name);
+      });
+    })
   }
 }]);

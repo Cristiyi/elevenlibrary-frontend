@@ -161,7 +161,10 @@ mainApp.run(function($rootScope, $window, $cookies, $http, $location, UserServic
 
   $rootScope.$on('$locationChangeStart', function(event, next, current) {
     if (current){
-      $rootScope.fromStage = current.substr(current.indexOf('#')+1);
+      var newUrl = current.substr(current.indexOf('#')+1);
+      if (newUrl != '/login'){
+        $rootScope.fromStage = newUrl;
+      }
     };
    });
 
