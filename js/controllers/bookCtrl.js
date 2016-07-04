@@ -322,6 +322,7 @@ bookApp.controller('CreateMyBookCtrl', ['$scope', '$rootScope', '$timeout', '$st
 bookApp.controller('EditMyBookCtrl', ['$scope', '$rootScope', '$timeout', '$state', '$location', 'BooksService', '$window', function($scope, $rootScope, $timeout, $state, $location, BooksService, $window) {
   $scope.myBook = {};
   $scope.index = -1;
+  $scope.ifDelete = false;
   $scope.update();
   $scope.$on('getAllDataEvent', function() {
     var i = 0;
@@ -377,8 +378,9 @@ bookApp.controller('EditMyBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
       $scope.showErrorMsg("Fail to save the book: " + $scope.myBook.name);
     });
   };
-  $scope.deleteMyBook = function() {
-    $('#deleteMyBookModal').on('hidden.bs.modal', function(e) {
+
+  $('#deleteMyBookModal').on('hidden.bs.modal', function(e) {
+    if ($scope.ifDelete){
       BooksService.deleteBook($scope.myBook._id).success(function(res) {
         $scope.books.splice($scope.$index, 1);
         $timeout(function() {
@@ -388,6 +390,6 @@ bookApp.controller('EditMyBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
       }).error(function(res) {
         $scope.showErrorMsg("Fail to delete the book: " + $scope.myBook.name);
       });
-    })
-  }
+    }
+  });
 }]);
