@@ -125,7 +125,7 @@
     </div>
   </div>
 </div>
-<div class="alert alert-success warningBox center-block" role="alert" ng-show="books[index].status==0 && books[index].confirmed == false && logInUser.intrID && books[index].ownerIntrID == logInUser.intrID && showMsg" ng-init="showMsg = true">Your book will share to public after gets the Adminstrator's approval.
+<div class="alert alert-success warningBox center-block" role="alert" ng-show="books[index].status==0 && books[index].confirmed == false && logInUser.intrID && books[index].ownerIntrID == logInUser.intrID && showMsg" ng-init="showMsg = true">Your book will share to public after the Adminstrator's approval.
   <button type="button" class="close" aria-label="Close" ng-click="showMsg = false"><span aria-hidden="true">&times;</span></button>
 </div>
 <div class="alert alert-success warningBox center-block" role="alert" ng-show="books[index].status==1 && books[index].intrID == logInUser.intrID && logInUser.intrID && showMsg" ng-init="showMsg = true">Please take the book from Adminstrator before <strong>{{expireDate | date:'fullDate'}}</strong><a href="" data-toggle="modal" data-target="#cancelModal">Cancel</a>

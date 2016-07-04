@@ -1380,5 +1380,9 @@ span.red {
 }
 
 .manageArea {
-  width:50px;
+  white-space: nowrap;
+}
+
+.nameArea {
+  white-space: nowrap;
 }

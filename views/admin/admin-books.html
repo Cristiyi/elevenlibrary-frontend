@@ -24,14 +24,16 @@
       <td class="text-center" header="'headerCheckbox.html'">
         <input type="checkbox" ng-model="checkboxes.items[book._id]" />
       </td>
-      <td class="text-center manageArea" title="'#'">
+      <td class="text-center" title="'#'">{{$index + 1}}
+      </td>
+      <td class="text-center manageArea">
         <a ng-href="#/manage/book/{{book._id}}"><span class="glyphicon glyphicon-pencil"></span></a>
         <a ng-href="#/book/{{book._id}}" target="_blank"><span class="glyphicon glyphicon-info-sign"></span></a>
       </td>
       <td class="text-center" title="'ISBN'" filter="{ isbn: 'text'}" sortable="'isbn'">
         {{book.isbn}}
       </td>
-      <td class="text-center" title="'Name'" filter="{ name: 'text'}" sortable="'name'">
+      <td class="text-center nameArea" title="'Name'" filter="{ name: 'text'}" sortable="'name'">
         {{book.name}}
       </td>
       <td class="text-center" title="'Author'" filter="{ author: 'text'}" sortable="'author'">
