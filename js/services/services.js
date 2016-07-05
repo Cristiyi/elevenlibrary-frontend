@@ -112,6 +112,30 @@ serviceApp.factory('BooksService', ['$http', function($http) {
         book.desc = data.summary;
       };
     },
+    getDoubanCall: function(book, success, error) {
+      var iserror = true;
+      $http.jsonp('http://api.douban.com/v2/book/isbn/' + book.isbn, {
+        params: {
+          'callback': 'MyCallback'
+        }
+      }).error(function(err){
+        if (iserror){
+          error();
+        }
+      });;
+      window.MyCallback = function(data) {
+        iserror = false;
+        console.log("Complete book info:", data);
+        book.name = data.title;
+        book.image = data.images.large;
+        book.author = data.author[0];
+        book.publisher = data.publisher;
+        book.pageCount = data.pages;
+        book.price = data.price.replace(/[\u4e00-\u9fa5]/, '');
+        book.desc = data.summary;
+        success();
+      };
+    },
     books: books
   }
 }]);

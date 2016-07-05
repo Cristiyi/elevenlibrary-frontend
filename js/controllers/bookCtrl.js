@@ -31,6 +31,8 @@ bookApp.controller('MainBooksCtrl', ['$scope', '$state', '$rootScope', '$timeout
       $scope.cate = 'UI Design';
     } else if ($state.current.name == "main.other") {
       $scope.cate = 'Other';
+    } else if ($state.current.name == "main.res") {
+      $scope.cate = 'Resource';
     } else if ($state.current.name == "main.shared") {
       $scope.cate = 'userShared';
     } else if ($state.current.name == "main.liked") {
@@ -155,6 +157,7 @@ bookApp.controller('DetailBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
   $scope.tarValue = 0;
   $scope.content = '';
   $scope.index = -1;
+  $scope.isBook = true;
   $scope.update();
   $scope.expireDate = new Date();
 
@@ -168,6 +171,9 @@ bookApp.controller('DetailBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
     for (i = 0; i < $scope.books.length; i++) {
       if ($scope.books[i]._id == $state.params._id) {
         $scope.index = i;
+        if ($scope.books[i].category === 'Resource'){
+          $scope.isBook = false;
+        };
         console.log("Current Book:", $scope.books[i]);
         if ($scope.books[i].applyTime) {
           $scope.expireDate = new Date($scope.books[i].applyTime).setDate(new Date($scope.books[i].applyTime).getDate() + 2);
@@ -176,7 +182,7 @@ bookApp.controller('DetailBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
       };
     };
     if (i >= $scope.books.length){
-      $location.path('/books/all');
+      $location.path($rootScope.fromStage);
     }
   });
 
@@ -291,6 +297,12 @@ bookApp.controller('DetailBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
 }]);
 
 bookApp.controller('CreateMyBookCtrl', ['$scope', '$rootScope', '$timeout', '$state', '$location', 'BooksService', '$window', function($scope, $rootScope, $timeout, $state, $location, BooksService, $window) {
+  $('#shareTab a').click(function (e) {
+    e.preventDefault()
+    $(this).tab('show')
+  });
+  $scope.isDone = false;
+
   $scope.myBook = {
     'ownerIntrID': $rootScope.logInUser.intrID,
     'ownerName': $rootScope.logInUser.name,
@@ -298,9 +310,21 @@ bookApp.controller('CreateMyBookCtrl', ['$scope', '$rootScope', '$timeout', '$st
     'confirmed': false,
     'category': 'Frontend'
   };
+  $scope.myRes = {
+    'ownerIntrID': $rootScope.logInUser.intrID,
+    'ownerName': $rootScope.logInUser.name,
+    'ownerPhoneNum': $rootScope.logInUser.phoneNum,
+    'confirmed': false,
+    'category': 'Resource'
+  };
+
   $scope.getDouban = function() {
-    BooksService.getDouban($scope.myBook);
-    console.log($scope.myBook);
+    BooksService.getDoubanCall($scope.myBook, function(){
+      $scope.isDone = true;
+      console.log($scope.myBook);
+    }, function(){
+      $scope.isDone = true;
+    });
   };
   $scope.createMyBook = function() {
     $('#createNewBookButton').button('loading');
@@ -317,12 +341,29 @@ bookApp.controller('CreateMyBookCtrl', ['$scope', '$rootScope', '$timeout', '$st
       $scope.showErrorMsg("Fail to add the book: " + $scope.myBook.name);
     });
   };
+
+  $scope.createMyRes = function() {
+    $('#createNewResButton').button('loading');
+    BooksService.createBook($scope.myRes).success(function(res) {
+      if (res.errType == 0) {
+        $scope.myRes._id = res._id;
+        $scope.books.push($scope.myRes);
+        $scope.showSuccessMsg("Success to add the Resource: " + $scope.myRes.name);
+        $('#createNewResButton').button('reset');
+        $location.path('/book/' + $scope.myRes._id);
+      }
+    }).error(function(res) {
+      $('#createNewResButton').button('reset');
+      $scope.showErrorMsg("Fail to add the Resource: " + $scope.myRes.name);
+    });
+  };
 }]);
 
 bookApp.controller('EditMyBookCtrl', ['$scope', '$rootScope', '$timeout', '$state', '$location', 'BooksService', '$window', function($scope, $rootScope, $timeout, $state, $location, BooksService, $window) {
   $scope.myBook = {};
   $scope.index = -1;
   $scope.ifDelete = false;
+  $scope.isBook = true;
   $scope.update();
   $scope.$on('getAllDataEvent', function() {
     var i = 0;
@@ -345,6 +386,9 @@ bookApp.controller('EditMyBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
           price: $scope.books[$scope.index].price,
           desc: $scope.books[$scope.index].desc,
           confirmed: false
+        };
+        if ($scope.myBook.category === 'Resource'){
+          $scope.isBook = false;
         };
         break;
       };

@@ -10,16 +10,16 @@
         </div>
         <div class="book-info">
           <div class="meta-act">
-            <span>Author: {{books[index].author}}</span>
+            <span>{{isBook?'Author':'Owner'}}: {{books[index].author}}</span>
           </div>
           <div class="meta-act">
-            <span>ISBN: {{books[index].isbn}}</span>
+            <span>{{isBook?'ISBN':'S/N'}}: {{books[index].isbn}}</span>
           </div>
           <div class="meta-act">
-            <span>Publisher: {{books[index].publisher}}</span>
+            <span>{{isBook?'Publisher':'Department'}}: {{books[index].publisher}}</span>
           </div>
           <div class="meta-act">
-            <span>Page Count: {{books[index].pageCount}}</span>
+            <span>{{isBook?'Page Count':'Memory'}}: {{books[index].pageCount}}</span>
           </div>
           <div class="meta-act">
             <span>Category: {{books[index].category}}</span>
@@ -60,7 +60,7 @@
           <a class="meta-act-link" style="padding: 10px 0;"><span class="glyphicon glyphicon-phone"></span> {{books[index].ownerPhoneNum}}</a>
           <br />
         </div>
-        <h3 class="meta-head" ng-show="showSimilarBooks">More Similar Books</h3>
+        <h3 class="meta-head" ng-show="showSimilarBooks">More {{isBook?'Similar':'Popular'}} Books</h3>
         <ol class="more-thumbs" ng-show="showSimilarBooks">
           <li class="multi-thumb" ng-repeat="book in simBooks">
             <a ng-href="#/book/{{book._id}}">
@@ -68,8 +68,8 @@
             </a>
           </li>
         </ol>
-        <h3 class="meta-head">More Popular Books</h3>
-        <ol class="more-thumbs">
+        <h3 class="meta-head" ng-show="isBook">More Popular Books</h3>
+        <ol class="more-thumbs" ng-show="isBook">
           <li class="multi-thumb">
             <a ng-href="#/book/{{popBooks[0]._id}}">
               <img ng-src="{{popBooks[0].image}}">
@@ -125,13 +125,13 @@
     </div>
   </div>
 </div>
-<div class="alert alert-success warningBox center-block" role="alert" ng-show="books[index].status==0 && books[index].confirmed == false && logInUser.intrID && books[index].ownerIntrID == logInUser.intrID && showMsg" ng-init="showMsg = true">Your book will share to public after the Adminstrator's approval.
+<div class="alert alert-success warningBox center-block" role="alert" ng-show="books[index].status==0 && books[index].confirmed == false && logInUser.intrID && books[index].ownerIntrID == logInUser.intrID && showMsg" ng-init="showMsg = true">Your {{isBook?'book':'resource'}} will share to public after the Adminstrator's approval.
   <button type="button" class="close" aria-label="Close" ng-click="showMsg = false"><span aria-hidden="true">&times;</span></button>
 </div>
-<div class="alert alert-success warningBox center-block" role="alert" ng-show="books[index].status==1 && books[index].intrID == logInUser.intrID && logInUser.intrID && showMsg" ng-init="showMsg = true">Please take the book from Adminstrator before <strong>{{expireDate | date:'fullDate'}}</strong><a href="" data-toggle="modal" data-target="#cancelModal">Cancel</a>
+<div class="alert alert-success warningBox center-block" role="alert" ng-show="books[index].status==1 && books[index].intrID == logInUser.intrID && logInUser.intrID && showMsg" ng-init="showMsg = true">Please take the {{isBook?'book':'resource'}} from its owner before <strong>{{expireDate | date:'fullDate'}}</strong><a href="" data-toggle="modal" data-target="#cancelModal">Cancel</a>
   <button type="button" class="close" aria-label="Close" ng-click="showMsg = false"><span aria-hidden="true">&times;</span></button>
 </div>
-<div class="alert alert-success warningBox center-block" role="alert" ng-show="books[index].status==2 && books[index].intrID == logInUser.intrID && logInUser.intrID && showMsg" ng-init="showMsg = true" style="width: 40%; left:30%">Please return the book before <strong>{{books[index].returnTime | date:'fullDate'}}</strong>
+<div class="alert alert-success warningBox center-block" role="alert" ng-show="books[index].status==2 && books[index].intrID == logInUser.intrID && logInUser.intrID && showMsg" ng-init="showMsg = true" style="width: 40%; left:30%">Please return the {{isBook?'book':'resource'}} before <strong>{{books[index].returnTime | date:'fullDate'}}</strong>
   <button type="button" class="close" aria-label="Close" ng-click="showMsg = false"><span aria-hidden="true">&times;</span></button>
 </div>
 <div class="modal fade" id="warningModal" tabindex="-1" role="dialog" aria-labelledby="warningModalLabel">
@@ -142,7 +142,7 @@
         <h4 class="modal-title">Warning</h4>
       </div>
       <div class="modal-body">
-        <p>You have borrowed <strong>TWO</strong> books, please read them first.</p>
+        <p>You have borrowed <strong>TWO</strong> books/resources, please return them first.</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
@@ -158,7 +158,7 @@
         <h4 class="modal-title">Warning</h4>
       </div>
       <div class="modal-body">
-        <p>The book: <strong>{{books[index].name}}</strong> is out of stock.</p>
+        <p>The {{isBook?'book':'resource'}}: <strong>{{books[index].name}}</strong> is out of stock.</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
@@ -190,7 +190,7 @@
         <h4 class="modal-title">Confirm Dialog</h4>
       </div>
       <div class="modal-body">
-        <p>Do you really want to cancel to borrow this book ?</p>
+        <p>Do you really want to cancel to borrow this {{isBook?'book':'resource'}} ?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="cancel();showMsg = false">Yes</button>

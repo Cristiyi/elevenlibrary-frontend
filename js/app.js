@@ -56,6 +56,11 @@ mainApp.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: 'views/book/allbooks.html',
       controller: 'AllBooksCtrl'
     })
+    .state('main.res', {
+      url: '/books/resource',
+      templateUrl: 'views/book/allbooks.html',
+      controller: 'AllBooksCtrl'
+    })
     .state('main.shared', {
       url: '/books/shared',
       templateUrl: 'views/book/allbooks.html',
@@ -157,6 +162,10 @@ mainApp.run(function($rootScope, $window, $cookies, $http, $location, UserServic
     }).error(function(res){
       console.log('Logout Failed!');
     });
+  };
+
+  $rootScope.goBack = function (){
+    $location.path($rootScope.fromStage);
   };
 
   $rootScope.$on('$locationChangeStart', function(event, next, current) {
