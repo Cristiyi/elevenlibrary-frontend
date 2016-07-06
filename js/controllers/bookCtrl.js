@@ -2,7 +2,6 @@ var bookApp = angular.module('bookApp', ['wu.masonry', 'infinite-scroll', 'servi
 bookApp.controller('MainBooksCtrl', ['$scope', '$state', '$rootScope', '$timeout', 'BooksService', function($scope, $state, $rootScope, $timeout, BooksService) {
   console.log('MainBooksCtrl Start');
   $scope.books = [];
-  $scope.popBooks = [];
   $scope.showScrollToTop = false;
   $scope.successMsg = '';
   $scope.errorMsg = '';
@@ -68,21 +67,6 @@ bookApp.controller('MainBooksCtrl', ['$scope', '$state', '$rootScope', '$timeout
   );
 
 
-  $scope.updatePop = function() {
-    function sortLikes(a, b) {
-      return b.likes.length - a.likes.length;
-    };
-    var books = [];
-    $scope.popBooks = [];
-    for (var index in $scope.books) {
-      if ($scope.books[index].confirmed == true) {
-        books.push($scope.books[index]);
-      }
-    };
-    $scope.popBooks = books.sort(sortLikes);
-  };
-
-
   $scope.showMoreBooks = function() {
     // var start = $scope.books.length;
     // var end = Math.min(start + 10, BooksService.books.length);
@@ -122,7 +106,6 @@ bookApp.controller('MainBooksCtrl', ['$scope', '$state', '$rootScope', '$timeout
           res[i].image = res[i].image ? res[i].image : "images/gray.jpg";
           $scope.books.push(res[i]);
         };
-        $scope.updatePop();
         $scope.showAvai = true;
         $scope.$broadcast('getAllDataEvent');
       });
@@ -145,7 +128,6 @@ bookApp.controller('AllBooksCtrl', ['$scope', '$rootScope', '$state', '$timeout'
             break;
           };
         };
-        $scope.updatePop();
       });
     }, 500);
   };
@@ -178,17 +160,22 @@ bookApp.controller('DetailBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
         if ($scope.books[i].applyTime) {
           $scope.expireDate = new Date($scope.books[i].applyTime).setDate(new Date($scope.books[i].applyTime).getDate() + 2);
         };
+        if ($scope.isBook){
+          BooksService.getSimilarBooks($state.params._id).success(function(res) {
+            $scope.simBooks = res;
+            $scope.showSimilarBooks = $scope.simBooks.length != 0 ? true : false;
+          });
+
+          BooksService.getPopularBooks().success(function(res){
+            $scope.popBooks = res;
+          });
+        };
         break;
       };
     };
     if (i >= $scope.books.length){
       $location.path($rootScope.fromStage);
     }
-  });
-
-  BooksService.getSimilarBooks($state.params._id).success(function(res) {
-    $scope.simBooks = res;
-    $scope.showSimilarBooks = $scope.simBooks.length != 0 ? true : false;
   });
 
   $scope.borrow = function() {
@@ -231,7 +218,6 @@ bookApp.controller('DetailBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
     timeout = $timeout(function() {
       BooksService.likeBook($scope.books[$scope.index]._id, $rootScope.logInUser.intrID, $scope.books[$scope.index].isLiked).success(function(res) {
         $scope.books[$scope.index].likes = res;
-        $scope.updatePop();
       });
     }, 500);
   };
@@ -385,6 +371,9 @@ bookApp.controller('EditMyBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
           pageCount: $scope.books[$scope.index].pageCount,
           price: $scope.books[$scope.index].price,
           desc: $scope.books[$scope.index].desc,
+          ownerIntrID: $scope.books[$scope.index].ownerIntrID,
+          ownerName: $scope.books[$scope.index].ownerName,
+          ownerPhoneNum: $scope.books[$scope.index].ownerPhoneNum,
           confirmed: false
         };
         if ($scope.myBook.category === 'Resource'){

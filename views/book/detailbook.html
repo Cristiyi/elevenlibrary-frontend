@@ -60,8 +60,8 @@
           <a class="meta-act-link" style="padding: 10px 0;"><span class="glyphicon glyphicon-phone"></span> {{books[index].ownerPhoneNum}}</a>
           <br />
         </div>
-        <h3 class="meta-head" ng-show="showSimilarBooks">More {{isBook?'Similar':'Popular'}} Books</h3>
-        <ol class="more-thumbs" ng-show="showSimilarBooks">
+        <h3 class="meta-head" ng-show="showSimilarBooks && isBook">More Similar Books</h3>
+        <ol class="more-thumbs" ng-show="showSimilarBooks && isBook">
           <li class="multi-thumb" ng-repeat="book in simBooks">
             <a ng-href="#/book/{{book._id}}">
               <img ng-src="{{book.image}}">

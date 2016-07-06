@@ -93,6 +93,9 @@ serviceApp.factory('BooksService', ['$http', function($http) {
     getSimilarBooks: function(_id) {
       return $http.get(host + '/api/user/books/similar/' + _id);
     },
+    getPopularBooks: function(){
+      return $http.get(host + '/api/user/books/popular');
+    },
     getDouban: function(book) {
       var iserror = true;
       $http.jsonp('http://api.douban.com/v2/book/isbn/' + book.isbn, {

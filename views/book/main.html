@@ -52,6 +52,7 @@
           <li ng-show="logInUser.name"><a ng-class="{selected: cate=='userLiked'}" ui-sref="main.liked">My Favorites</a></li>
           <li ng-show="logInUser.name"><a ng-class="{selected: cate=='userBorrowed'}" ui-sref="main.borrowed">My Orders</a></li>
         </ul>
+        <li><a href="" class="terms" data-toggle="modal" data-target="#termModal">Privacy and Terms</a></li>
       </div>
       <div class="alert alert-success warningBox center-block" role="alert" ng-show="successMsg">{{successMsg}}
         <button type="button" class="close" aria-label="Close" ng-click="successMsg = ''"><span aria-hidden="true">&times;</span></button>
@@ -63,3 +64,37 @@
     </div>
   </div>
 </section>
+<div class="modal fade bs-example-modal-lg" id="termModal" tabindex="-1" role="dialog" aria-labelledby="termModalLabel">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">ElevenLibrary Terms</h3>
+      </div>
+      <div class="modal-body">
+        <h4>Welcome to ElevenLibrary!</h4>
+        <p>Thanks for using our tool. By using it, you are agreeing to these terms. Please read them carefully.</p>
+        <div class="well">
+          <p class="lead">Access to, and use of, ElevenLibrary</p>
+          <p>ElevenLibrary is accessible to IBM employees and other individuals authorized by IBM to access it.</p>
+          <p>ElevenLibrary is proprietary to IBM and is intended for use by IBM employees and other authorized individuals for IBM business purposes, including for facilitating employee communications and collaboration, identifying skills and management purposes. ElevenLibrary may analyze and use for its business purposes information (such as use statistics) regarding your use of ElevenLibrary.</p>
+          <p>Use of ElevenLibrary is restricted to management approved purposes and follow all applicable IBM policies and guidelines, including the IBM Business Conduct Guidelines, Security and Use Standards for IBM Employees (ITCS 300), IBM's Social Computing Guidelines and IBM's Guidelines for the Protection of Employee Information. Failure to follow applicable policies, guidelines and practices when using ElevenLibrary may result in disciplinary action up to and including discharge for IBM employees or other action which IBM in its sole discretion deems appropriate for non-IBM employees.</p>
+          <p class="lead">ElevenLibrary Content and User Content</p>
+          <p>There are generally two categories of content on the ElevenLibrary: ElevenLibrary Content and User Content. ElevenLibrary Content consists of the book, materials and content that is posted on the ElevenLibrary by users (for example, resouse, ppt, pdf and video). For information regarding how to appropriately handle ElevenLibrary proprietary information, reference to Corporate Instruction Legal 116 and the accompanying Frequently Asked Questions.</p>
+          <p>User Content is the content that employees and other authorized users post in social media applications or other environments on the ElevenLibrary, which would include, for example, certain profile and contact data, personal information, submissions, ideas, tags, messages, recommendations, photos, music, posts, comments, responses and other information that a user posts or uploads on ElevenLibrary.</p>
+          <p class="lead">User Content</p>
+          <p>ElevenLibrary and other participants may use the User Content that you post for business purposes, may create derivative works of your User Content and may sublicense others to do the same. You agree to only post User Content that you created or developed or that you have permission or authorization to post, including personal information about others.</p>
+          <p>ElevenLibrary may, in its sole discretion, access, delete, edit or remove any User Content, without permission of or notification to the person who posted it. ElevenLibrary may (but is not obligated to) monitor the activities and postings on the intranet (or be alerted to the same) for any reason. If you remove your User Content, your User Content may no longer be displayed, but ElevenLibrary may, if it so chooses, archive, retain and continue to use (as provided above) your User Content. ElevenLibrary is not responsible for User Content or the accuracy or correctness of such content.</p>
+          <p>You agree that your User Content, as well as statistics and other information regarding your usage of social media tools on ElevenLibrary, may be analyzed by ElevenLibrary and used for its business purposes, including without limitation, to articulate relationships among users, to identify subject matter experts, to improve existing technologies and innovate new ones and to make recommendations of information that might be useful to you.</p>
+          <p class="lead">Personal information</p>
+          <p>To the extent permitted by law, IBM and IBM authorized companies and individuals collect and maintain personal information which relates to your employment. IBM makes available on the ElevenLibrary certain personal information about you, such as your name, photo, contact information and career development and skills. You agree that, in connection with its business purposes, IBM (or authorized service providers on IBM's behalf) may collect, use, store, transfer and otherwise make available on the ElevenLibrary such personal information about you, as well as the User Content you may post.</p>
+          <p>We may also use, disclose or share your personal information or User Content to protect the rights or property of IBM, our business partners, suppliers, clients or others when we have reasonable grounds to believe that such rights or property have been or could be affected. In addition, we reserve the right to disclose such information as required by law, or to comply with a judicial proceeding, court order, or legal process served on IBM.</p>
+          <p class="lead">General</p>
+          <p>IBM may change these Terms of Use at any time. IBM will give notice of material changes to these Terms of Use by posting a notice outlining such changes on this site for thirty days. If there is a conflict between these Terms of Use and the terms and conditions specific to a particular application, tool or software, the specific terms and conditions to the application, tool or software will prevail. All rights reserved by ElevenLibrary owner.</p>
+        </div>
+      </div>
+      <div class="modal-footer" style="text-align: center">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Agree!</button>
+      </div>
+    </div>
+  </div>
+</div>
