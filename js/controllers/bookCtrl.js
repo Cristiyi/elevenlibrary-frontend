@@ -152,12 +152,12 @@ bookApp.controller('DetailBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
     var i = 0;
     for (i = 0; i < $scope.books.length; i++) {
       if ($scope.books[i]._id == $state.params._id) {
-        $scope.index = i;
         if ($scope.books[i].category === 'Resource') {
           $scope.isBook = false;
         } else {
           $scope.isBook = true;
         };
+        $scope.index = i;
         console.log("Current Book:", $scope.books[i]);
         if ($scope.books[i].applyTime) {
           $scope.expireDate = new Date($scope.books[i].applyTime).setDate(new Date($scope.books[i].applyTime).getDate() + 2);
@@ -361,6 +361,11 @@ bookApp.controller('EditMyBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
           $location.path('/book/' + $scope.books[i]._id);
           break;
         };
+        if ($scope.myBook.category == 'Resource') {
+          $scope.isBook = false;
+        } else {
+          $scope.isBook = true;
+        };
         $scope.index = i;
         $scope.myBook = {
           _id: $scope.books[$scope.index]._id,
@@ -377,11 +382,6 @@ bookApp.controller('EditMyBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
           ownerName: $scope.books[$scope.index].ownerName,
           ownerPhoneNum: $scope.books[$scope.index].ownerPhoneNum,
           confirmed: false
-        };
-        if ($scope.myBook.category == 'Resource') {
-          $scope.isBook = false;
-        } else {
-          $scope.isBook = true;
         };
         break;
       };

@@ -68,8 +68,8 @@
             </a>
           </li>
         </ol>
-        <h3 class="meta-head" ng-show="isBook">More Popular Books</h3>
-        <ol class="more-thumbs" ng-show="isBook">
+        <h3 class="meta-head" ng-show="isBook && popBooks.length">More Popular Books</h3>
+        <ol class="more-thumbs" ng-show="isBook && popBooks.length">
           <li class="multi-thumb">
             <a ng-href="#/book/{{popBooks[0]._id}}">
               <img ng-src="{{popBooks[0].image}}">
