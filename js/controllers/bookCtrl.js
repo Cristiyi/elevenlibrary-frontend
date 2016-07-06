@@ -188,7 +188,8 @@ bookApp.controller('DetailBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
         $scope.books[$scope.index].applyTime = res.applyTime;
         $scope.showMsg = true;
         if ($scope.books[$scope.index].applyTime) {
-          $scope.expireDate = new Date($scope.books[$scope.index].applyTime).setDate(new Date($scope.books[$scope.index].applyTime).getDate() + 2);
+          $scope.expireDate = $scope.books[$scope.index].applyTime;
+          $scope.expireDate.setDate($scope.books[$scope.index].applyTime.getDate() + 2);
         };
       } else if (res.errType == 1) {
         $('#warningModal').modal('show');
