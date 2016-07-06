@@ -153,27 +153,29 @@ bookApp.controller('DetailBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
     for (i = 0; i < $scope.books.length; i++) {
       if ($scope.books[i]._id == $state.params._id) {
         $scope.index = i;
-        if ($scope.books[i].category === 'Resource'){
+        if ($scope.books[i].category === 'Resource') {
           $scope.isBook = false;
+        } else {
+          $scope.isBook = true;
         };
         console.log("Current Book:", $scope.books[i]);
         if ($scope.books[i].applyTime) {
           $scope.expireDate = new Date($scope.books[i].applyTime).setDate(new Date($scope.books[i].applyTime).getDate() + 2);
         };
-        if ($scope.isBook){
+        if ($scope.isBook) {
           BooksService.getSimilarBooks($state.params._id).success(function(res) {
             $scope.simBooks = res;
             $scope.showSimilarBooks = $scope.simBooks.length != 0 ? true : false;
           });
 
-          BooksService.getPopularBooks().success(function(res){
+          BooksService.getPopularBooks().success(function(res) {
             $scope.popBooks = res;
           });
         };
         break;
       };
     };
-    if (i >= $scope.books.length){
+    if (i >= $scope.books.length) {
       $location.path($rootScope.fromStage);
     }
   });
@@ -283,7 +285,7 @@ bookApp.controller('DetailBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
 }]);
 
 bookApp.controller('CreateMyBookCtrl', ['$scope', '$rootScope', '$timeout', '$state', '$location', 'BooksService', '$window', function($scope, $rootScope, $timeout, $state, $location, BooksService, $window) {
-  $('#shareTab a').click(function (e) {
+  $('#shareTab a').click(function(e) {
     e.preventDefault()
     $(this).tab('show')
   });
@@ -305,10 +307,10 @@ bookApp.controller('CreateMyBookCtrl', ['$scope', '$rootScope', '$timeout', '$st
   };
 
   $scope.getDouban = function() {
-    BooksService.getDoubanCall($scope.myBook, function(){
+    BooksService.getDoubanCall($scope.myBook, function() {
       $scope.isDone = true;
       console.log($scope.myBook);
-    }, function(){
+    }, function() {
       $scope.isDone = true;
     });
   };
@@ -376,8 +378,10 @@ bookApp.controller('EditMyBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
           ownerPhoneNum: $scope.books[$scope.index].ownerPhoneNum,
           confirmed: false
         };
-        if ($scope.myBook.category === 'Resource'){
+        if ($scope.myBook.category == 'Resource') {
           $scope.isBook = false;
+        } else {
+          $scope.isBook = true;
         };
         break;
       };
@@ -413,7 +417,7 @@ bookApp.controller('EditMyBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
   };
 
   $('#deleteMyBookModal').on('hidden.bs.modal', function(e) {
-    if ($scope.ifDelete){
+    if ($scope.ifDelete) {
       BooksService.deleteBook($scope.myBook._id).success(function(res) {
         $scope.books.splice($scope.$index, 1);
         $timeout(function() {
