@@ -17,6 +17,7 @@
         </a>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
           <li><a ui-sref="main.home">Home</a></li>
+          <li><a ng-class="{selected: cate=='userShared'}" ng-click="cate='userShared'" ui-sref="main.shared">My Sharings</a></li>
           <li><a ng-class="{selected: cate=='userLiked'}" ng-click="cate='userLiked'" ui-sref="main.liked">My Favorites</a></li>
           <li><a ng-class="{selected: cate=='userBorrowed'}" ng-click="cate='userBorrowed'" ui-sref="main.borrowed">My Orders</a></li>
           <li role="separator" class="divider"></li>

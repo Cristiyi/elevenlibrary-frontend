@@ -37,20 +37,20 @@
       </div>
     </div>
   </div>
-  <div id="borrowedDiv">
-    <h3>My Orders</h3>
+  <div id="likedDiv">
+    <h3>My Favorites</h3>
     <div masonry>
-      <div class="masonry-brick" ng-repeat="book in borrowedBooks">
+      <div class="masonry-brick" ng-repeat="book in likedBooks">
         <a href="#/book/{{book._id}}">
           <img ng-src="{{book.image}}" style="width: 130px" />
         </a>
       </div>
     </div>
   </div>
-  <div id="likedDiv">
-    <h3>My Favorites</h3>
+  <div id="borrowedDiv">
+    <h3>My Orders</h3>
     <div masonry>
-      <div class="masonry-brick" ng-repeat="book in likedBooks">
+      <div class="masonry-brick" ng-repeat="book in borrowedBooks">
         <a href="#/book/{{book._id}}">
           <img ng-src="{{book.image}}" style="width: 130px" />
         </a>
