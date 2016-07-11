@@ -31,10 +31,10 @@
           <a href="" class="meta-act-link free" ng-click="borrow()" ng-show="books[index].status==0 && books[index].ownerIntrID != logInUser.intrID"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Borrow</a>
           <a ng-href="#/myBook/{{books[index]._id}}" class="meta-act-link free" ng-show="books[index].status==0 && logInUser.intrID && books[index].ownerIntrID == logInUser.intrID"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Manage</a>
           <a href="" class="meta-act-link cancel" ng-click="cancel()" ng-show="books[index].status==1 && logInUser.intrID && books[index].intrID == logInUser.intrID && books[index].ownerIntrID != logInUser.intrID && !hover"><span class="glyphicon glyphicon-check" aria-hidden="true"></span> Reserved</a>
-          <a href="" class="meta-act-link cancel" ng-click="deliver()" ng-show="books[index].status==1 && logInUser.intrID && books[index].ownerIntrID == logInUser.intrID "><span class="glyphicon glyphicon-check" aria-hidden="true"></span> Deliver    (to {{books[index].intrID}})</a>
+          <a href="" class="meta-act-link cancel" data-toggle="modal" data-target="#deliverModal" ng-show="books[index].status==1 && logInUser.intrID && books[index].ownerIntrID == logInUser.intrID "><span class="glyphicon glyphicon-check" aria-hidden="true"></span> Deliver    (to {{books[index].intrID}})</a>
           <a href="" class="meta-act-link cancel" data-toggle="modal" data-target="#cancelModal" ng-show="books[index].status==1 && logInUser.intrID && books[index].intrID == logInUser.intrID && books[index].ownerIntrID != logInUser.intrID && hover"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancel</a>
           <a href="" class="meta-act-link borrowed" ng-show="(books[index].status==2 || (books[index].status==1 && books[index].intrID != logInUser.intrID)) && books[index].ownerIntrID != logInUser.intrID" title="By {{books[index].intrID}} | Untill {{books[index].returnTime ? books[index].returnTime :  expireDate | date:'yyyy-MM-dd'}}"><span class="glyphicon glyphicon-share" aria-hidden="true"></span> Borrowed</a>
-          <a href="" class="meta-act-link cancel" ng-click="return()" ng-show="books[index].status==2 && logInUser.intrID && books[index].ownerIntrID == logInUser.intrID "><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span> Received    (from {{books[index].intrID}})</a>
+          <a href="" class="meta-act-link cancel" data-toggle="modal" data-target="#receiveModal" ng-show="books[index].status==2 && logInUser.intrID && books[index].ownerIntrID == logInUser.intrID "><span class="glyphicon glyphicon-share-alt" aria-hidden="true"></span> Received    (from {{books[index].intrID}})</a>
         </div>
         <div class="meta-act">
           <div class="group fav">
@@ -125,13 +125,13 @@
     </div>
   </div>
 </div>
-<div class="alert alert-success warningBox center-block" role="alert" ng-show="books[index].status==0 && books[index].confirmed == false && logInUser.intrID && books[index].ownerIntrID == logInUser.intrID && showMsg" ng-init="showMsg = true">Your {{isBook?'book':'resource'}} will share to public after the Adminstrator's approval.
+<div class="alert alert-success warningBox center-block" role="alert" ng-show="books[index].status==0 && books[index].confirmed == false && logInUser.intrID && books[index].ownerIntrID == logInUser.intrID && showMsg" ng-init="showMsg = true">Your {{isBook?'book':'mobile asset'}} will share to public after the Adminstrator's approval.
   <button type="button" class="close" aria-label="Close" ng-click="showMsg = false"><span aria-hidden="true">&times;</span></button>
 </div>
-<div class="alert alert-success warningBox center-block" role="alert" ng-show="books[index].status==1 && books[index].intrID == logInUser.intrID && logInUser.intrID && showMsg" ng-init="showMsg = true">Please take the {{isBook?'book':'resource'}} from its owner before <strong>{{expireDate | date:'fullDate'}}</strong><a href="" data-toggle="modal" data-target="#cancelModal">Cancel</a>
+<div class="alert alert-success warningBox center-block" role="alert" ng-show="books[index].status==1 && books[index].intrID == logInUser.intrID && logInUser.intrID && showMsg" ng-init="showMsg = true">Please take the {{isBook?'book':'mobile asset'}} from its owner before <strong>{{expireDate | date:'fullDate'}}</strong><a href="" data-toggle="modal" data-target="#cancelModal">Cancel</a>
   <button type="button" class="close" aria-label="Close" ng-click="showMsg = false"><span aria-hidden="true">&times;</span></button>
 </div>
-<div class="alert alert-success warningBox center-block" role="alert" ng-show="books[index].status==2 && books[index].intrID == logInUser.intrID && logInUser.intrID && showMsg" ng-init="showMsg = true" style="width: 40%; left:30%">Please return the {{isBook?'book':'resource'}} before <strong>{{books[index].returnTime | date:'fullDate'}}</strong>
+<div class="alert alert-success warningBox center-block" role="alert" ng-show="books[index].status==2 && books[index].intrID == logInUser.intrID && logInUser.intrID && showMsg" ng-init="showMsg = true" style="width: 40%; left:30%">Please return the {{isBook?'book':'mobile asset'}} before <strong>{{books[index].returnTime | date:'fullDate'}}</strong>
   <button type="button" class="close" aria-label="Close" ng-click="showMsg = false"><span aria-hidden="true">&times;</span></button>
 </div>
 <div class="modal fade" id="warningModal" tabindex="-1" role="dialog" aria-labelledby="warningModalLabel">
@@ -142,7 +142,7 @@
         <h4 class="modal-title">Warning</h4>
       </div>
       <div class="modal-body">
-        <p>You have borrowed <strong>TWO</strong> books/resources, please return them first.</p>
+        <p>You have borrowed <strong>TWO</strong> books/mobile assets, please return them first.</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
@@ -158,7 +158,7 @@
         <h4 class="modal-title">Warning</h4>
       </div>
       <div class="modal-body">
-        <p>The {{isBook?'book':'resource'}}: <strong>{{books[index].name}}</strong> is out of stock.</p>
+        <p>The {{isBook?'book':'mobile asset'}}: <strong>{{books[index].name}}</strong> is out of stock.</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">OK</button>
@@ -190,10 +190,44 @@
         <h4 class="modal-title">Confirm Dialog</h4>
       </div>
       <div class="modal-body">
-        <p>Do you really want to cancel to borrow this {{isBook?'book':'resource'}} ?</p>
+        <p>Do you really want to cancel to borrow this {{isBook?'book':'mobile asset'}} ?</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="cancel();showMsg = false">Yes</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="deliverModal" tabindex="-1" role="dialog" aria-labelledby="deliverModalLabel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Confirm Dialog</h4>
+      </div>
+      <div class="modal-body">
+        <p>Do you really want to deliver your {{isBook?'book':'mobile asset'}} to <a class="btn-link" target="_blank" ng-href="https://faces.tap.ibm.com/bluepages/profile.html?email={{books[index].intrID}}">{{books[index].intrID}}</a>?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="deliver();showMsg = false">Yes</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="receiveModal" tabindex="-1" role="dialog" aria-labelledby="receiveModalLabel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Confirm Dialog</h4>
+      </div>
+      <div class="modal-body">
+        <p>Have you received your {{isBook?'book':'mobile asset'}} from <a class="btn-link" target="_blank" ng-href="https://faces.tap.ibm.com/bluepages/profile.html?email={{books[index].intrID}}">{{books[index].intrID}}</a>?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="return();showMsg = false">Yes</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
       </div>
     </div>

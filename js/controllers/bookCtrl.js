@@ -31,7 +31,7 @@ bookApp.controller('MainBooksCtrl', ['$scope', '$state', '$rootScope', '$timeout
     } else if ($state.current.name == "main.other") {
       $scope.cate = 'Other';
     } else if ($state.current.name == "main.res") {
-      $scope.cate = 'Resource';
+      $scope.cate = 'Mobile Asset';
     } else if ($state.current.name == "main.shared") {
       $scope.cate = 'userShared';
     } else if ($state.current.name == "main.liked") {
@@ -152,7 +152,7 @@ bookApp.controller('DetailBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
     var i = 0;
     for (i = 0; i < $scope.books.length; i++) {
       if ($scope.books[i]._id == $state.params._id) {
-        if ($scope.books[i].category === 'Resource') {
+        if ($scope.books[i].category === 'Mobile Asset') {
           $scope.isBook = false;
         } else {
           $scope.isBook = true;
@@ -304,7 +304,7 @@ bookApp.controller('CreateMyBookCtrl', ['$scope', '$rootScope', '$timeout', '$st
     'ownerName': $rootScope.logInUser.name,
     'ownerPhoneNum': $rootScope.logInUser.phoneNum,
     'confirmed': false,
-    'category': 'Resource'
+    'category': 'Mobile Asset'
   };
 
   $scope.getDouban = function() {
@@ -337,13 +337,13 @@ bookApp.controller('CreateMyBookCtrl', ['$scope', '$rootScope', '$timeout', '$st
       if (res.errType == 0) {
         $scope.myRes._id = res._id;
         $scope.books.push($scope.myRes);
-        $scope.showSuccessMsg("Success to add the Resource: " + $scope.myRes.name);
+        $scope.showSuccessMsg("Success to add the mobile asset: " + $scope.myRes.name);
         $('#createNewResButton').button('reset');
         $location.path('/book/' + $scope.myRes._id);
       }
     }).error(function(res) {
       $('#createNewResButton').button('reset');
-      $scope.showErrorMsg("Fail to add the Resource: " + $scope.myRes.name);
+      $scope.showErrorMsg("Fail to add the mobile asset: " + $scope.myRes.name);
     });
   };
 }]);
@@ -362,7 +362,7 @@ bookApp.controller('EditMyBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
           $location.path('/book/' + $scope.books[i]._id);
           break;
         };
-        if ($scope.myBook.category == 'Resource') {
+        if ($scope.books[i].category === 'Mobile Asset') {
           $scope.isBook = false;
         } else {
           $scope.isBook = true;

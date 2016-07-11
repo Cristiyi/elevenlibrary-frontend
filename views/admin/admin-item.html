@@ -6,7 +6,7 @@
     </a>
   </div>
   <div style="margin-top:50px">
-  <label>Owner: </label>
+    <label>Owner: </label>
     <a ng-href="http://faces.tap.ibm.com/imagesrv/{{book.ownerIntrID}}" target="_blank" style="width: 60px;height:60px;">
       <img class="" style="width: 60px; height:60px; background-image: url(http://faces.tap.ibm.com/imagesrv/{{book.ownerIntrID}}); background-size: 60px 60px; background-repeat:no-repeat; display: block; overflow:hidden">
     </a>
@@ -16,12 +16,14 @@
 </div>
 <form class="form-horizontal col-md-8 pull-left " ng-submit="addBook()">
   <div class="form-group">
-    <label class="col-sm-2 control-label">ISBN<span class="red">*</span></label>
+    <label class="col-sm-2 control-label" ng-show="isBook">ISBN<span class="red">*</span></label>
+    <label class="col-sm-2 control-label" ng-show="!isBook">S/N<span class="red">*</span></label>
     <div class="col-sm-6">
-      <div class="input-group">
-        <input type="text" class="form-control" ng-disabled="true" ng-model="book.isbn" placeholder="ISBN" required>
+      <input type="text" class="form-control" ng-model="book.isbn" ng-show="!isBook" placeholder="Serial Number" required>
+      <div class="input-group" ng-show="isBook">
+        <input type="text" class="form-control" ng-model="book.isbn" placeholder="International Standard Book Number" required>
         <span class="input-group-btn">
-          <button class="btn btn-default" type="button" ng-click="getDouban()" ><span class="glyphicon glyphicon-refresh"></span></button>
+        <button class="btn btn-default tooltip-show" type="button" ng-click="getDouban()" title="get info from Douban.com" id="loadingDouban"><span class="glyphicon glyphicon-refresh" data-toggle="tooltip" data-animation="true" title="get info from Douban.com"></span></button>
         </span>
       </div>
     </div>
@@ -34,8 +36,8 @@
   </div>
   <div class="form-group">
     <label class="col-sm-2 control-label">Category<span class="red">*</span></label>
-    <div class="col-sm-6">
-      <select class="form-control" ng-model="book.category" required>
+    <div class="col-sm-10">
+      <select class="form-control" ng-model="book.category" ng-show="isBook" required>
         <option value="Frontend">Frontend</option>
         <option value="Backend">Backend</option>
         <option value="Database">Database</option>
@@ -43,6 +45,9 @@
         <option value="IOS/Android">IOS/Android</option>
         <option value="UI Design">UI Design</option>
         <option value="Other">Other</option>
+      </select>
+      <select class="form-control" ng-model="book.category" ng-show="!isBook" required>
+        <option value="Mobile Asset">Mobile Asset</option>
       </select>
     </div>
   </div>
@@ -53,24 +58,27 @@
     </div>
   </div>
   <div class="form-group">
-    <label class="col-sm-2 control-label">Author</label>
+    <label class="col-sm-2 control-label" ng-show="isBook">Author</label>
+    <label class="col-sm-2 control-label" ng-show="!isBook">Owner</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" ng-model="book.author" placeholder="Author">
+      <input type="text" class="form-control" ng-model="book.author" placeholder="{{isBook?'Author':'Owner'}}">
     </div>
   </div>
   <div class="form-group">
-    <label class="col-sm-2 control-label">Publisher</label>
+  <label class="col-sm-2 control-label" ng-show="isBook">Publisher</label>
+  <label class="col-sm-2 control-label" ng-show="!isBook">Department</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" ng-model="book.publisher" placeholder="Publisher">
+      <input type="text" class="form-control" ng-model="book.publisher" placeholder="{{isBook?'Publisher':'Department'}}">
     </div>
   </div>
   <div class="form-group">
-    <label class="col-sm-2 control-label">PageCount</label>
+  <label class="col-sm-2 control-label" ng-show="isBook">PageCount</label>
+  <label class="col-sm-2 control-label" ng-show="!isBook">Memory</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" ng-model="book.pageCount" placeholder="PageCount">
+      <input type="text" class="form-control" ng-model="book.pageCount" placeholder="{{isBook?'PageCount':'16G/32G/64G/128G'}}">
     </div>
   </div>
-  <div class="form-group">
+  <div class="form-group" ng-show="isBook">
     <label class="col-sm-2 control-label">Price</label>
     <div class="col-sm-10">
       <input type="text" class="form-control" ng-model="book.price" placeholder="Price" />
@@ -92,7 +100,7 @@
       <div class="alert alert-danger bookAlert" role="alert" ng-show="currentState.book.message.type==11"><strong>Failed to save!</strong>This book doesn't exist.</div>
       <div class="alert alert-danger bookAlert" role="alert" ng-show="currentState.book.message.type==12"><strong>Failed to save!</strong>Server Error, please try again.</div>
       <div class="alert alert-danger bookAlert" role="alert" ng-show="currentState.book.message.type==15">This book doesn't exist in Douban.</div>
-      <button type="button" class="btn btn-primary pull-right" ng-hide="book.confirmed"  data-toggle="modal" data-target="#confirmBookModal" autocomplete="off">Confirm</button>
+      <button type="button" class="btn btn-primary pull-right" ng-hide="book.confirmed" data-toggle="modal" data-target="#confirmBookModal" autocomplete="off">Confirm</button>
     </div>
   </div>
 </form>
@@ -164,7 +172,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary"  ng-click="confirm()" data-dismiss="modal">Confirm</button>
+        <button type="button" class="btn btn-primary" ng-click="confirm()" data-dismiss="modal">Confirm</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
       </div>
     </div>

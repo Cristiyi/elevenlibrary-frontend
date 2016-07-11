@@ -409,9 +409,15 @@ adminApp.controller('ManageBooksCtrl', ['$scope', '$element', '$http', '$locatio
 
 adminApp.controller('ManageBookCtrl', ['$scope', '$http', '$timeout', '$location', '$stateParams', 'adminBooksService', function($scope, $http, $timeout, $location, $stateParams, adminBooksService) {
   $scope.book = {};
+  $scope.isBook = true;
   $scope.initBook = function initBook() {
     for (var index = 0; index < adminBooksService.books.length; index++) {
       if (adminBooksService.books[index]._id == $stateParams._id) {
+        if (adminBooksService.books[index].category === 'Mobile Asset'){
+          $scope.isBook = false;
+        } else {
+          $scope.isBook = true;
+        }
         $scope.book = adminBooksService.books[index];
         console.log($scope.book);
         break;

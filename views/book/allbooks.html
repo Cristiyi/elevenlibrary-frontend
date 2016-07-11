@@ -4,11 +4,11 @@
       <input type="checkbox" ng-model="onlyAvai"> Available
     </label>
     <label style="cursor:pointer; margin-left:20px" ng-show="cate==''">
-      <input type="checkbox" ng-model="includeRes"> Show Resources
+      <input type="checkbox" ng-model="includeRes"> Show Mobile Asset
     </label>
   </div>
   <div masonry>
-    <div class="masonry-brick" ng-repeat="book in books | filter : cate=='userShared'? {ownerIntrID: logInUser.intrID, status:(onlyAvai?0:'')} : (cate=='userLiked'? {isLiked: true, confirmed:true, status:(onlyAvai?0:'')} : ( cate=='userBorrowed' ? {intrID: logInUser.intrID, confirmed:true, status:(onlyAvai?0:'')}: (cate==''?{category:(includeRes?'':'!Resource'), confirmed:true, status:(onlyAvai?0:'')}:{category: cate, confirmed:true, status:(onlyAvai?0:'')})))">
+    <div class="masonry-brick" ng-repeat="book in books | filter : cate=='userShared'? {ownerIntrID: logInUser.intrID, status:(onlyAvai?0:'')} : (cate=='userLiked'? {isLiked: true, confirmed:true, status:(onlyAvai?0:'')} : ( cate=='userBorrowed' ? {intrID: logInUser.intrID, confirmed:true, status:(onlyAvai?0:'')}: (cate==''?{category:(includeRes?'':'!Mobile Asset'), confirmed:true, status:(onlyAvai?0:'')}:{category: cate, confirmed:true, status:(onlyAvai?0:'')})))">
       <div class="gridItem" ng-class="{aHover: hover, notFree: book.status != 0}" ng-mouseenter="hover = true" ng-mouseleave="hover = false">
         <div class="bookShot">
           <div>
