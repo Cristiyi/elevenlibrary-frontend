@@ -208,6 +208,7 @@ bookApp.controller('DetailBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
       BooksService.cancelBook($state.params._id, $rootScope.logInUser.intrID).success(function(res) {
         delete $scope.books[$scope.index].intrID;
         $scope.books[$scope.index].status = 0;
+        $scope.showMsg = false;
       }).error(function(res) {
         console.log("cancelBook error");
       });
@@ -265,6 +266,7 @@ bookApp.controller('DetailBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
         $scope.books[$scope.index].borrowTime = res.borrowTime;
         $scope.books[$scope.index].returnTime = res.returnTime;
       };
+      $scope.showMsg = false;
     }).error(function(res) {
       console.error(res);
     });
@@ -279,6 +281,7 @@ bookApp.controller('DetailBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
         $scope.books[$scope.index].borrowTime = null;
         $scope.books[$scope.index].returnTime = null;
       };
+      $scope.showMsg = false;
     }).error(function(res) {
       console.error(res);
     })
@@ -324,10 +327,13 @@ bookApp.controller('CreateMyBookCtrl', ['$scope', '$rootScope', '$timeout', '$st
         $scope.showSuccessMsg("Success to add the book: " + $scope.myBook.name);
         $('#createNewBookButton').button('reset');
         $location.path('/book/' + $scope.myBook._id);
+      } else {
+        $('#createNewBookButton').button('reset');
+        $scope.showErrorMsg("Fail to add the book: " + $scope.myBook.name + ", please retry");
       }
     }).error(function(res) {
       $('#createNewBookButton').button('reset');
-      $scope.showErrorMsg("Fail to add the book: " + $scope.myBook.name);
+      $scope.showErrorMsg("Fail to add the book: " + $scope.myBook.name + ", please retry");
     });
   };
 
@@ -340,10 +346,13 @@ bookApp.controller('CreateMyBookCtrl', ['$scope', '$rootScope', '$timeout', '$st
         $scope.showSuccessMsg("Success to add the mobile asset: " + $scope.myRes.name);
         $('#createNewResButton').button('reset');
         $location.path('/book/' + $scope.myRes._id);
+      } else {
+        $('#createNewResButton').button('reset');
+        $scope.showErrorMsg("Fail to add the mobile asset: " + $scope.myRes.name + ", please retry");
       }
     }).error(function(res) {
       $('#createNewResButton').button('reset');
-      $scope.showErrorMsg("Fail to add the mobile asset: " + $scope.myRes.name);
+      $scope.showErrorMsg("Fail to add the mobile asset: " + $scope.myRes.name + ", please retry");
     });
   };
 }]);
@@ -413,7 +422,7 @@ bookApp.controller('EditMyBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
       $location.path('/book/' + $scope.myBook._id);
     }).error(function(res) {
       $('#saveMyBookButton').button('reset');
-      $scope.showErrorMsg("Fail to save the book: " + $scope.myBook.name);
+      $scope.showErrorMsg("Fail to save the book: " + $scope.myBook.name+', please retry');
     });
   };
 

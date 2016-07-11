@@ -94,7 +94,9 @@
         </div>
       </div>
       <div class="modal-footer" style="text-align: center">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Agree!</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="agree()" ng-show="logInUser.name && !logInUser.agreed">Agree!</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-show="logInUser.name && logInUser.agreed" disabled="disabled">You have agreed !</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
       </div>
     </div>
   </div>

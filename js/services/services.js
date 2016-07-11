@@ -148,11 +148,14 @@ serviceApp.factory('UserService', ['$http', function($http) {
     userLogin: function(user) {
       return $http.post(host + '/api/login/user', user);
     },
-    adminLogin: function(user) {
-      return $http.post(host + '/api/login/admin', user);
-    },
     userLogout: function() {
       return $http.post(host + '/api/logout/user');
+    },
+    userAgree: function(user){
+      return $http.post(host + '/api/agree/user', user);
+    },
+    adminLogin: function(user) {
+      return $http.post(host + '/api/login/admin', user);
     },
     adminLogout: function() {
       return $http.post(host + '/api/logout/admin');

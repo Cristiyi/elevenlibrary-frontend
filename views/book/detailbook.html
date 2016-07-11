@@ -19,7 +19,7 @@
             <span>{{isBook?'Publisher':'Department'}}: {{books[index].publisher}}</span>
           </div>
           <div class="meta-act">
-            <span>{{isBook?'Page Count':'Memory'}}: {{books[index].pageCount}}</span>
+            <span>{{isBook?'Page Count':'Memory'}}: {{books[index].pageCount}} {{!isBook && books[index].pageCount?'G':''}}</span>
           </div>
           <div class="meta-act">
             <span>Category: {{books[index].category}}</span>
@@ -193,7 +193,7 @@
         <p>Do you really want to cancel to borrow this {{isBook?'book':'mobile asset'}} ?</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="cancel();showMsg = false">Yes</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="cancel()">Yes</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
       </div>
     </div>
@@ -210,7 +210,7 @@
         <p>Do you really want to deliver your {{isBook?'book':'mobile asset'}} to <a class="btn-link" target="_blank" ng-href="https://faces.tap.ibm.com/bluepages/profile.html?email={{books[index].intrID}}">{{books[index].intrID}}</a>?</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="deliver();showMsg = false">Yes</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="deliver()">Yes</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
       </div>
     </div>
@@ -227,7 +227,7 @@
         <p>Have you received your {{isBook?'book':'mobile asset'}} from <a class="btn-link" target="_blank" ng-href="https://faces.tap.ibm.com/bluepages/profile.html?email={{books[index].intrID}}">{{books[index].intrID}}</a>?</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="return();showMsg = false">Yes</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="return()">Yes</button>
         <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
       </div>
     </div>

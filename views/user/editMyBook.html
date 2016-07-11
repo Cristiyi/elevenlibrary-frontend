@@ -65,8 +65,14 @@
     <div class="form-group">
       <label class="col-sm-2 control-label" ng-show="isBook">PageCount</label>
       <label class="col-sm-2 control-label" ng-show="!isBook">Memory</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" ng-model="myBook.pageCount" placeholder="{{isBook?'PageCount':'Memory'}}">
+      <div class="col-sm-10" ng-show="isBook">
+        <input type="number" class="form-control" ng-model="myBook.pageCount" placeholder="PageCount">
+      </div>
+      <div class="col-sm-6" ng-show="!isBook">
+        <div class="input-group">
+          <input type="number" class="form-control" ng-model="myBook.pageCount" placeholder="16G/32G/64G/128G">
+          <div class="input-group-addon">G</div>
+        </div>
       </div>
     </div>
     <div class="form-group" ng-show="isBook">

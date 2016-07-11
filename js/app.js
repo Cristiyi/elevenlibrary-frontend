@@ -151,9 +151,25 @@ mainApp.run(function($rootScope, $window, $cookies, $http, $location, UserServic
     'name': user ? user.name : '',
     'intrID': user ? user.intrID : '',
     'phoneNum': user ? user.phoneNum : '',
-    'image': user ? 'http://faces.tap.ibm.com/imagesrv/'+ user.intrID : ''
+    'image': user ? 'http://faces.tap.ibm.com/imagesrv/'+ user.intrID : '',
+    'agreed': user ? user.agreed:false,
   };
   $rootScope.fromStage="";
+  $rootScope.agree = function(){
+    UserService.userAgree($rootScope.logInUser).success(function(res){
+      $rootScope.logInUser.agreed = true;
+      var expireDate = new Date();
+      expireDate.setDate(expireDate.getDate() + 7);
+      $cookies.putObject('user', {
+        intrID: $rootScope.logInUser.intrID,
+        name: $rootScope.logInUser.name,
+        phoneNum: $rootScope.logInUser.phoneNum,
+        agreed: $rootScope.logInUser.agreed
+      }, {
+        'expires': expireDate
+      });
+    })
+  };
   $rootScope.logOut = function () {
     UserService.userLogout().success(function(res){
       $rootScope.logInUser = {};
@@ -197,7 +213,9 @@ mainApp.factory('authInterceptor', function($rootScope, $q, $window, $location) 
         $location.path('/login');
       } else if (rejection.status === 401 && rejection.data === 'Admin'){
         $location.path('/adminLogin');
-      };
+      } else if (rejection.status === 401 && rejection.data === 'NotAgreed'){
+        $('#termModal').modal('show');
+      }
       return $q.reject(rejection);
     }
   };
