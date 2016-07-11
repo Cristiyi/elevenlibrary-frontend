@@ -38,7 +38,7 @@ userApp.controller('LoginCtrl', ['$scope', '$rootScope', '$http', '$location', '
         'pwd': $scope.user.pwd
       };
       UserService.userLogin(user)
-        .success(function(res, status, headers, config) {
+        .success(function(res) {
           console.log('[userLogin]res', res);
           if (res.errType === 0) {
             $('#loginBtn').button('reset');
@@ -47,6 +47,7 @@ userApp.controller('LoginCtrl', ['$scope', '$rootScope', '$http', '$location', '
             $rootScope.logInUser.name = res.name;
             $rootScope.logInUser.phoneNum = res.phoneNum;
             $rootScope.logInUser.intrID = user.intrID;
+            $rootScope.logInUser.agreed = res.agreed;
 
             var expireDate = new Date();
             expireDate.setDate(expireDate.getDate() + 7);
@@ -54,6 +55,7 @@ userApp.controller('LoginCtrl', ['$scope', '$rootScope', '$http', '$location', '
               intrID: $rootScope.logInUser.intrID,
               name: $rootScope.logInUser.name,
               phoneNum: $rootScope.logInUser.phoneNum,
+              agreed: $rootScope.logInUser.agreed,
             }, {
               'expires': expireDate
             });
