@@ -151,12 +151,12 @@ mainApp.run(function($rootScope, $window, $cookies, $http, $location, UserServic
     'name': user ? user.name : '',
     'intrID': user ? user.intrID : '',
     'phoneNum': user ? user.phoneNum : '',
-    'image': user ? 'http://faces.tap.ibm.com/imagesrv/'+ user.intrID : '',
-    'agreed': user ? user.agreed:false,
+    'image': user ? 'http://faces.tap.ibm.com/imagesrv/' + user.intrID : '',
+    'agreed': user ? user.agreed : false,
   };
-  $rootScope.fromStage="";
-  $rootScope.agree = function(){
-    UserService.userAgree($rootScope.logInUser).success(function(res){
+  $rootScope.fromStage = "";
+  $rootScope.agree = function() {
+    UserService.userAgree($rootScope.logInUser).success(function(res) {
       $rootScope.logInUser.agreed = true;
       var expireDate = new Date();
       expireDate.setDate(expireDate.getDate() + 7);
@@ -170,33 +170,50 @@ mainApp.run(function($rootScope, $window, $cookies, $http, $location, UserServic
       });
     })
   };
-  $rootScope.logOut = function () {
-    UserService.userLogout().success(function(res){
+  $rootScope.logOut = function() {
+    UserService.userLogout().success(function(res) {
       $rootScope.logInUser = {};
       $cookies.remove('user');
       $cookies.remove('connect.sid');
-    }).error(function(res){
+    }).error(function(res) {
       console.log('Logout Failed!');
     });
   };
 
-  $rootScope.goBack = function (){
+  angular.element(document).bind('scroll', function() {
+    if (window.pageYOffset > 300) {
+      $('#gotoTop').show();
+    } else {
+      $('#gotoTop').hide();
+    }
+  });
+
+  $rootScope.gotoTop = function() {
+    $("body").animate({ scrollTop: $("body").offset().top }, "slow");
+  }
+
+  $rootScope.goBack = function() {
     $location.path($rootScope.fromStage);
   };
 
+  $rootScope.showTerms = function() {
+    console.log('showTerms');
+    $('#termModal').modal('show');
+  }
+
   $rootScope.$on('$locationChangeStart', function(event, next, current) {
-    if (current){
-      var newUrl = current.substr(current.indexOf('#')+1);
-      if (newUrl != '/login'){
+    if (current) {
+      var newUrl = current.substr(current.indexOf('#') + 1);
+      if (newUrl != '/login') {
         $rootScope.fromStage = newUrl;
       }
     };
-   });
+  });
 
-  $rootScope.adminLogOut = function () {
-    UserService.adminLogout().success(function(res){
+  $rootScope.adminLogOut = function() {
+    UserService.adminLogout().success(function(res) {
       $location.path('/adminLogin');
-    }).error(function(res){
+    }).error(function(res) {
       console.log('Admin Logout Failed!');
     });
   };
@@ -209,12 +226,12 @@ mainApp.factory('authInterceptor', function($rootScope, $q, $window, $location) 
       if (rejection.status === 401 && rejection.data === 'User') {
         // handle the case where the user is not authenticated
         $rootScope.fromStage = $location.path();
-        console.log('$location.path',$location.path());
+        console.log('$location.path', $location.path());
         $location.path('/login');
-      } else if (rejection.status === 401 && rejection.data === 'Admin'){
+      } else if (rejection.status === 401 && rejection.data === 'Admin') {
         $location.path('/adminLogin');
-      } else if (rejection.status === 401 && rejection.data === 'NotAgreed'){
-        $('#termModal').modal('show');
+      } else if (rejection.status === 401 && rejection.data === 'NotAgreed') {
+        $rootScope.showTerms();
       }
       return $q.reject(rejection);
     }

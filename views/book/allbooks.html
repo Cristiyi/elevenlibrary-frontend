@@ -14,9 +14,9 @@
           <div>
             <div class="hoverInfo">
               <h4><strong>{{ book.name }}</strong></h4>
-              <h5>- {{book.author}}</h5>
-              <h5>- {{book.publisher}}</h5>
-              <h5>- {{book.category}}</h5>
+              <h5 ng-show="book.author">- {{book.author}}</h5>
+              <h5 ng-show="book.publisher">- {{book.publisher}}</h5>
+              <h5 ng-show="book.category">- {{book.category}}</h5>
               <h5 ng-show="book.status == 1">Ordered By {{book.intrID}}</h5>
               <h5 ng-show="book.status == 2">Borrowed By {{book.intrID}}</h5>
               <h5 ng-show="book.status == 2 && book.returnTime">Untill {{book.returnTime | date:'yyyy-MM-dd'}}</h5>
@@ -26,6 +26,9 @@
             <div class="hoverLike">
               <span>{{book.likes.length}}</span>
               <a class="liked" ng-class="{isLiked: book.isLiked==true}" ng-click="like(book)"></a>
+            </div>
+            <div class="hoverOwner">
+              <span>Owner: {{book.ownerName}}</span>
             </div>
             <a class="hoverLink" ng-href="#/book/{{book._id}}">
               <img style="width:206px; min-width: 206px; min-height: 206px;" ng-src="{{ book.image }}" />

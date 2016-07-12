@@ -117,10 +117,10 @@ bookApp.controller('AllBooksCtrl', ['$scope', '$rootScope', '$state', '$timeout'
   $scope.update();
   var timeout;
   $scope.like = function(book) {
-    book.isLiked = !book.isLiked;
     if (timeout) $timeout.cancel(timeout);
     timeout = $timeout(function() {
-      BooksService.likeBook(book._id, $rootScope.logInUser.intrID, book.isLiked).success(function(res) {
+      BooksService.likeBook(book._id, $rootScope.logInUser.intrID, !book.isLiked).success(function(res) {
+        book.isLiked = !book.isLiked;
         book.likes = res;
         for (var i = 0; i < book.likes.length; i++) {
           if (book.likes[i] === $rootScope.logInUser.intrID) {
@@ -217,18 +217,18 @@ bookApp.controller('DetailBookCtrl', ['$scope', '$rootScope', '$timeout', '$stat
 
   var timeout;
   $scope.like = function() {
-    $scope.books[$scope.index].isLiked = !$scope.books[$scope.index].isLiked;
     if (timeout) $timeout.cancel(timeout);
     timeout = $timeout(function() {
-      BooksService.likeBook($scope.books[$scope.index]._id, $rootScope.logInUser.intrID, $scope.books[$scope.index].isLiked).success(function(res) {
+      BooksService.likeBook($scope.books[$scope.index]._id, $rootScope.logInUser.intrID, !$scope.books[$scope.index].isLiked).success(function(res) {
+        $scope.books[$scope.index].isLiked = !$scope.books[$scope.index].isLiked;
         $scope.books[$scope.index].likes = res;
       });
     }, 500);
   };
 
   $scope.rate = function(value) {
-    $scope.books[$scope.index].rateValue = value;
     BooksService.rateBook($scope.books[$scope.index]._id, $rootScope.logInUser.intrID, value).success(function(res) {
+      $scope.books[$scope.index].rateValue = value;
       $scope.books[$scope.index].rates = res;
       var total = 0;
       for (var i = 0; i < $scope.books[$scope.index].rates.length; i++) {

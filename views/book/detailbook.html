@@ -9,8 +9,8 @@
           </a>
         </div>
         <div class="book-info">
-          <div class="meta-act">
-            <span>{{isBook?'Author':'Owner'}}: {{books[index].author}}</span>
+          <div class="meta-act" ng-show="isBook">
+            <span>Author: {{books[index].author}}</span>
           </div>
           <div class="meta-act">
             <span>{{isBook?'ISBN':'S/N'}}: {{books[index].isbn}}</span>
@@ -54,10 +54,12 @@
         </div>
         <div id="contactDiv" class="meta-act">
           <h3 class="meta-head">Contact Owner</h3>
-          <img ng-src="http://faces.tap.ibm.com/imagesrv/{{books[index].ownerIntrID}}" alt="{{books[index].ownerIntrID}}" class="img-inset">
-          <a class="meta-act-link" style="padding: 10px 0;" ng-click="contact(books[index].ownerIntrID)"><span class="glyphicon glyphicon-user"></span> {{books[index].ownerName}}</a>
-          <a href="mailto:{{books[index].ownerIntrID}}?subject=11Library" class="meta-act-link" style="padding: 0 0;"><span class="glyphicon glyphicon-envelope"></span> {{books[index].ownerIntrID}}</a>
-          <a class="meta-act-link" style="padding: 10px 0;"><span class="glyphicon glyphicon-phone"></span> {{books[index].ownerPhoneNum}}</a>
+          <a ng-href="http://faces.tap.ibm.com/imagesrv/{{books[index].ownerIntrID}}" title="{{books[index].ownerName}}" target="_blank"><img ng-src="http://faces.tap.ibm.com/imagesrv/{{books[index].ownerIntrID}}" alt="{{books[index].ownerIntrID}}" class="img-inset"></a>
+          <div>
+            <a class="meta-act-link" ng-click="contact(books[index].ownerIntrID)"><span class="glyphicon glyphicon-user"></span> {{books[index].ownerName}}</a>
+            <a href="mailto:{{books[index].ownerIntrID}}?subject=11Library" class="meta-act-link" style="padding: 0 0;"><span class="glyphicon glyphicon-envelope"></span> {{books[index].ownerIntrID}}</a>
+            <a class="meta-act-link"><span class="glyphicon glyphicon-phone"></span> {{books[index].ownerPhoneNum}}</a>
+          </div>
           <br />
         </div>
         <h3 class="meta-head" ng-show="showSimilarBooks && isBook">More Similar Books</h3>

@@ -256,7 +256,7 @@ input[type=number] {
 }
 
 #termModal div.well {
-  height:350px;
+  height: 350px;
   overflow: auto;
 }
 
@@ -288,6 +288,22 @@ input[type=number] {
   position: absolute;
   bottom: 40px;
   left: 5px;
+  right: 5px;
+  padding: 20px;
+  display: none;
+  opacity: 0.9;
+  color: #888;
+  font-size: 13px;
+  line-height: 2;
+  text-decoration: none;
+  overflow: hidden;
+  cursor: pointer;
+  z-index: 9999;
+}
+
+.hoverOwner {
+  position: absolute;
+  bottom: 10px;
   right: 5px;
   padding: 20px;
   display: none;
@@ -345,6 +361,12 @@ input[type=number] {
   padding: 0;
   margin-left: 25px;
   margin-bottom: 25px;
+}
+
+.aHover .hoverOwner {
+  opacity: 1;
+  display: block;
+  z-index: 3;
 }
 
 .hoverLike span {
@@ -1331,8 +1353,21 @@ span.red {
 
 /*Contact us link icon */
 
+#contactDiv {
+  padding-bottom: 10px
+}
+
+#contactDiv div {
+  margin-top: 20px;
+}
+
 #contactDiv p {
   margin-left: 12px;
+}
+
+#contactDiv a.meta-act-link {
+  display: inline-block;
+  padding: 0 0 5px 0;
 }
 
 .emial-link {
@@ -1436,4 +1471,43 @@ span.red {
 
 #loadingDouban:hover span {
   -webkit-animation: gogogo 1s infinite linear;
+}
+
+#gotoTop {
+  display: none;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  cursor: pointer;
+  padding: 4px 4px;
+  width: 50px;
+  border: 1px solid #e0e0e0;
+  background: #aaa;
+  border-radius: 50px;
+  height: 50px;
+  z-index: 1000;
+  opacity: 0.5;
+}
+
+#gotoTop:hover {
+  background-color: #454545;
+  color: #fff;
+  text-decoration: none;
+  opacity: 0.7;
+}
+
+.arrow {
+  width: 0;
+  height: 0;
+  margin: 0 auto;
+  border: 9px solid transparent;
+  border-bottom-color: #fff;
+}
+
+.stick {
+  width: 8px;
+  height: 14px;
+  margin: 0 auto;
+  border-radius: 1px;
+  background-color: #fff;
 }
