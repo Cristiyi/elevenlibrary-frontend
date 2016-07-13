@@ -1,4 +1,4 @@
-var userApp = angular.module('userApp', ['ngMessages', 'directApp', 'serviceApp']);
+var userApp = angular.module('userApp', ['ngMessages', 'serviceApp']);
 
 userApp.controller('LoginCtrl', ['$scope', '$rootScope', '$http', '$location', '$timeout', '$cookies', 'UserService', function($scope, $rootScope, $http, $location, $timeout, $cookies, UserService) {
   $scope.user = {};
