@@ -6,6 +6,26 @@ module.exports = function(grunt) {
       '<%= pkg.homepage ? "* " + pkg.homepage + "\\n" : "" %>' +
       '* Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
       ' Licensed <%= _.pluck(pkg.licenses, "type").join(", ") %> */\n',
+    preprocess: {
+      options: {
+        context: {
+          NODE_ENV: 'DEV'
+        };
+      },
+      html: {
+        src: 'views/index.html',
+        dest: 'index.html'
+      },
+      js: {
+        src: 'js/services/services.js',
+        dest: 'services.js'
+      }
+    },
+    removelogging: {
+      dist: {
+        src: "dist/app.js",
+      }
+    },
     concat: {
       dist: {
         options: {
@@ -43,14 +63,14 @@ module.exports = function(grunt) {
       }
     }
   });
-
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-html2js');
-  grunt.loadNpmTasks('grunt-bower-task');
   grunt.loadNpmTasks("grunt-remove-logging");
-  // grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-preprocess');
   //register grunt default task
-  grunt.registerTask('default', ['removelogging', 'html2js:dist', 'concat:dist', 'uglify:dist', 'clean:temp']);
+  grunt.registerTask('default', ['preprocess:dev']);
+  grunt.registerTask('dev', ['preprocess:dev']);
+  grunt.registerTask('prod', ['html2js:dist', 'concat:dist', 'removelogging', 'uglify:dist', 'clean:temp', 'preprocess']);
 };

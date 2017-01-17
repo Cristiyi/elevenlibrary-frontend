@@ -181,6 +181,7 @@ mainApp.run(function($rootScope, $window, $cookies, $http, $location, UserServic
   };
 
   angular.element(document).bind('scroll', function() {
+    // console.log(window.pageYOffset);
     if (window.pageYOffset > 300) {
       $('#gotoTop').show();
     } else {

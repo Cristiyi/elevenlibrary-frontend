@@ -1,9 +1,15 @@
 var serviceApp = angular.module('serviceApp', []);
 var host = '';
+
+// @if NODE_ENV = 'PROD'
+host = 'http://9.115.24.133:3001';
+// @endif
+// @if NODE_ENV = 'DEV'
+host = 'http://9.115.24.133:4000';
+// @endif
+
 if (window.location.hostname == 'localhost') {
   host = 'http://localhost:4000';
-} else {
-  host = 'http://9.115.24.133:4000';
 };
 
 serviceApp.factory('adminBooksService', ['$http', function($http) {
